@@ -1,6 +1,6 @@
 table! {
     characters (name) {
-        id -> Integer,
+        id -> Text,
         name -> Text,
         class -> Text,
         item_level -> Integer,
@@ -9,14 +9,14 @@ table! {
 
 table! {
     guildmates (id) {
-        id -> Integer,
-        server_id -> Integer,
+        id -> Text,
+        server_id -> Text,
     }
 }
 
 table! {
     servers (id) {
-        id -> Integer,
+        id -> Text,
         guild_name -> Text,
     }
 }

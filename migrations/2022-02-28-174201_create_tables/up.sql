@@ -1,15 +1,15 @@
 -- Your SQL goes here
 CREATE TABLE servers (
-    id INTEGER PRIMARY KEY NOT NULL,
+    id TEXT PRIMARY KEY NOT NULL,
     guild_name TEXT NOT NULL
 );
 CREATE TABLE guildmates (
-    id INTEGER PRIMARY KEY NOT NULL,
-    server_id INTEGER NOT NULL,
+    id TEXT PRIMARY KEY NOT NULL,
+    server_id TEXT NOT NULL,
     FOREIGN KEY (id) REFERENCES servers(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 CREATE TABLE characters (
-    id INTEGER NOT NULL,
+    id TEXT NOT NULL,
     name TEXT PRIMARY KEY NOT NULL,
     class TEXT NOT NULL,
     item_level INTEGER NOT NULL,
