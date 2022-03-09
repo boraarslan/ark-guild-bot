@@ -483,9 +483,9 @@ dependencies = [
 
 [[package]]
 name = "ipnet"
-version = "2.3.1"
+version = "2.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "68f2d64f2edebec4ce84ad108148e67e1064789bee435edc5b60ad398714a3a9"
+checksum = "35e70ee094dc02fd9c13fdad4940090f22dbd6ac7c9e7094a46cf0232a50bc7c"
 
 [[package]]
 name = "itoa"
@@ -642,9 +642,9 @@ dependencies = [
 
 [[package]]
 name = "once_cell"
-version = "1.9.0"
+version = "1.10.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "da32515d9f6e6e489d7bc9d84c71b060db7247dc035bbe44eac88cf87486d8d5"
+checksum = "87f3e037eac156d1775da914196f0f37741a274155e34a0b7e427c35d2a2ecb9"
 
 [[package]]
 name = "opaque-debug"
@@ -736,11 +736,12 @@ checksum = "58893f751c9b0412871a09abd62ecd2a00298c6c83befa223ef98c52aef40cbe"
 [[package]]
 name = "poise"
 version = "0.1.0"
-source = "git+https://github.com/kangalioo/poise#5e3f777c2f5129b416d76a074fd148b61a1e1ff2"
+source = "git+https://github.com/kangalioo/poise#0fc5d548e32fc7e3c8ea490afe95db00ec17ec24"
 dependencies = [
  "async-trait",
  "futures-core",
  "futures-util",
+ "log",
  "once_cell",
  "poise_macros",
  "regex",
@@ -751,7 +752,7 @@ dependencies = [
 [[package]]
 name = "poise_macros"
 version = "0.1.0"
-source = "git+https://github.com/kangalioo/poise#5e3f777c2f5129b416d76a074fd148b61a1e1ff2"
+source = "git+https://github.com/kangalioo/poise#0fc5d548e32fc7e3c8ea490afe95db00ec17ec24"
 dependencies = [
  "darling",
  "proc-macro2",
@@ -991,7 +992,7 @@ dependencies = [
 [[package]]
 name = "serenity"
 version = "0.10.10"
-source = "git+https://github.com/serenity-rs/serenity?branch=next#0391d7c868fb8d4a7cdc341b292d9e45a3fc743e"
+source = "git+https://github.com/serenity-rs/serenity?branch=next#61cdff4c7676f17b05dd40a79fde848c7acbeaf7"
 dependencies = [
  "async-trait",
  "async-tungstenite",
