@@ -5,11 +5,13 @@ pub mod schema;
 
 use diesel::prelude::*;
 use dotenv::dotenv;
-use std::{env, fmt::{Display, Debug}};
+use std::{
+    env,
+    fmt::{Debug, Display},
+};
 
 use models::*;
 use schema::*;
-
 
 #[derive(Debug, poise::ChoiceParameter, Clone, Copy)]
 pub enum Class {
@@ -109,37 +111,48 @@ pub fn get_server(server_id: u64) -> Option<Server> {
     server
 }
 
-pub fn get_guildmate(guildmate_id: u64) -> Option<Guildmate> {
+pub fn get_guildmate(guildmate_id: u64) -> Result<Option<Guildmate>, diesel::result::Error> {
     let connection = establish_connection();
 
-    let guildmate = guildmates::table
+    return match guildmates::table
         .filter(guildmates::id.eq(guildmate_id.to_string()))
         .get_result(&connection)
-        .ok();
-
-    guildmate
+    {
+        Ok(character) => Ok(Some(character)),
+        Err(diesel::result::Error::NotFound) => Ok(None),
+        Err(err) => Err(err),
+    };
 }
 
-pub fn get_all_characters(guildmate_id: u64) -> Option<Vec<Character>> {
+pub fn get_all_characters(
+    guildmate_id: u64,
+) -> Result<Option<Vec<Character>>, diesel::result::Error> {
     let connection = establish_connection();
 
-    let characters = characters::table
+    return match characters::table
         .filter(characters::id.eq(guildmate_id.to_string()))
+        .order(characters::item_level.desc())
         .get_results(&connection)
-        .ok();
-
-    characters
+    {
+        Ok(characters) => Ok(Some(characters)),
+        Err(diesel::result::Error::NotFound) => Ok(None),
+        Err(err) => Err(err),
+    };
 }
 
-pub fn get_single_character(character_name: &str) -> Option<Character> {
+pub fn get_single_character(
+    character_name: &str,
+) -> Result<Option<Character>, diesel::result::Error> {
     let connection = establish_connection();
 
-    let character = characters::table
+    return match characters::table
         .filter(characters::name.eq(character_name))
         .get_result(&connection)
-        .ok();
-
-    character
+    {
+        Ok(character) => Ok(Some(character)),
+        Err(diesel::result::Error::NotFound) => Ok(None),
+        Err(err) => Err(err),
+    };
 }
 
 pub fn update_character(
@@ -150,19 +163,50 @@ pub fn update_character(
     let connection = establish_connection();
 
     let existing_character = get_single_character(character_name);
-    if let None = existing_character {
-        return Err(diesel::result::Error::NotFound);
+    match existing_character {
+        Ok(existing_character) => {
+            if let None = existing_character {
+                return Err(diesel::result::Error::NotFound);
+            }
+            let mut existing_character = existing_character.unwrap();
+            existing_character.item_level = character_item_level;
+            existing_character.class = character_class.to_string();
+
+            diesel::replace_into(characters::table)
+                .values(existing_character)
+                .execute(&connection)
+                .expect("Error updating character");
+
+            Ok(())
+        }
+        Err(err) => Err(err),
     }
-    let mut existing_character = existing_character.unwrap();
-    existing_character.item_level = character_item_level;
-    existing_character.class = character_class.to_string();
+}
 
-    diesel::replace_into(characters::table)
-        .values(existing_character)
-        .execute(&connection)
-        .expect("Error updating character");
+pub fn update_ilvl(
+    character_name: &str,
+    character_item_level: i32,
+) -> Result<(), diesel::result::Error> {
+    let connection = establish_connection();
 
-    Ok(())
+    let existing_character = get_single_character(character_name);
+    match existing_character {
+        Ok(existing_character) => {
+            if let None = existing_character {
+                return Err(diesel::result::Error::NotFound);
+            }
+            let mut existing_character = existing_character.unwrap();
+            existing_character.item_level = character_item_level;
+
+            diesel::replace_into(characters::table)
+                .values(existing_character)
+                .execute(&connection)
+                .expect("Error updating character");
+
+            Ok(())
+        }
+        Err(err) => Err(err),
+    }
 }
 
 // This also deletes all the guildmates and characters associated with the server
