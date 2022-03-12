@@ -1,7 +1,9 @@
-use crate::*;
+use sea_orm::DbErr;
+use entity::characters;
 use super::*;
+use crate::*;
 
-fn construct_character_list(characters: &Vec<Character>) -> String {
+fn construct_character_list(characters: &Vec<characters::Model>) -> String {
     let mut character_list = String::new();
     character_list.push_str("```");
     character_list.push_str(&format!(
@@ -37,11 +39,14 @@ pub async fn character(
         return Ok(());
     };
 
-    match get_guildmate(ctx.author().id.0) {
-        Ok(guildmate) => {
-            if let None = guildmate {
-                insert_guildmate(guild_id, ctx.author().id.0).expect("Failed to insert guildmate");
-            }
+    let db = &ctx.data().db;
+
+    match get_guildmate(ctx.author().id.0, db).await {
+        Ok(_) => {}
+        Err(DbErr::RecordNotFound(_)) => {
+            insert_guildmate(guild_id, ctx.author().id.0, &db)
+                .await
+                .expect("Failed to insert guildmate");
         }
         Err(err) => {
             ctx.say(format!("Failed to acess guildmate.")).await?;
@@ -50,25 +55,19 @@ pub async fn character(
         }
     }
 
-    match get_single_character(&character_name) {
-        Ok(character) => match character {
-            Some(_) => {
-                update_character(&character_name, class, item_level)
-                    .expect("Error updating character");
-                ctx.say(format!(
-            "Updated character named **{character_name}** as *{class}* with __{item_level}__ Item Level"
-        ))
-        .await?;
-            }
-            None => {
-                insert_character(ctx.author().id.0, &character_name, class, item_level)
-                    .expect("Failed to insert character");
-                ctx.say(format!(
-                "Added **{character_name}** as *{class}* to your characters (__{item_level}__ Item Level)"
-            ))
-            .await?;
-            }
-        },
+    match get_single_character(&character_name, db).await {
+        Ok(_) => {
+            update_character(&character_name, class, item_level, db)
+                .await
+                .expect("Error updating character");
+            ctx.say(format!("Updated character named **{character_name}** as *{class}* with __{item_level}__ Item Level")).await?;
+        }
+        Err(DbErr::RecordNotFound(_)) => {
+            insert_character(ctx.author().id.0, &character_name, class, item_level, db)
+                .await
+                .expect("Failed to insert character");
+            ctx.say(format!("Added **{character_name}** as *{class}* to your characters (__{item_level}__ Item Level)")).await?;
+        }
         Err(err) => {
             ctx.say(format!("Failed to get character.")).await?;
             println!("{}", err);
@@ -81,25 +80,22 @@ pub async fn character(
 
 #[poise::command(slash_command, category = "Character")]
 pub async fn list_characters(ctx: Context<'_>) -> Result<(), Error> {
-    match get_all_characters(ctx.author().id.0) {
+    let db = &ctx.data().db;
+    match get_all_characters(ctx.author().id.0, db).await {
         Ok(characters) => {
-            if let Some(characters) = characters {
-                if characters.len() == 0 {
-                    ctx.say("You have no characters.").await?;
-                    return Ok(());
-                }
-                let character_list = construct_character_list(&characters);
-                ctx.send(|m| {
-                    m.embed(|e| {
-                        e.title(format!("Characters of {}", ctx.author().name))
-                            .field("Characters:", character_list, false)
-                            .thumbnail(ctx.author().avatar_url().unwrap_or_default())
-                    })
+            let character_list = construct_character_list(&characters);
+            ctx.send(|m| {
+                m.embed(|e| {
+                    e.title(format!("Characters of {}", ctx.author().name))
+                        .field("Characters:", character_list, false)
+                        .thumbnail(ctx.author().avatar_url().unwrap_or_default())
                 })
-                .await?;
-            } else {
-                ctx.say("You have no characters.").await?;
-            }
+            })
+            .await?;
+        }
+        Err(DbErr::RecordNotFound(_)) => {
+            ctx.say("You have no characters.").await?;
+            return Ok(());
         }
         Err(err) => {
             ctx.say("Error getting characters from database.").await?;
@@ -112,9 +108,9 @@ pub async fn list_characters(ctx: Context<'_>) -> Result<(), Error> {
 
 #[poise::command(slash_command, track_edits, category = "Character")]
 pub async fn delete_character(ctx: Context<'_>) -> Result<(), Error> {
-    match get_all_characters(ctx.author().id.0) {
+    let db = &ctx.data().db;
+    match get_all_characters(ctx.author().id.0, db).await {
         Ok(characters) => {
-            if let Some(characters) = characters {
                 let custom_uuid = ctx.id();
 
                 let character_list = construct_character_list(&characters);
@@ -156,7 +152,7 @@ pub async fn delete_character(ctx: Context<'_>) -> Result<(), Error> {
                     .filter(move |mci| mci.data.custom_id == custom_uuid.to_string())
                     .await
                 {
-                    remove_character(&mci.data.values[0]).expect("Failed to remove character");
+                    remove_character(&mci.data.values[0], db).await.expect("Failed to remove character");
                     mci.create_interaction_response(ctx.discord(), |ir| {
                         ir.kind(
                             serenity::model::interactions::InteractionResponseType::UpdateMessage,
@@ -178,9 +174,9 @@ pub async fn delete_character(ctx: Context<'_>) -> Result<(), Error> {
                     })
                     .await?;
                 }
-            } else {
-                ctx.say("You have no characters.").await?;
-            }
+        }
+        Err(DbErr::RecordNotFound(_)) => {
+            ctx.say("You dont have any characters.").await?;
         }
         Err(err) => {
             ctx.say("Error accessing the database.").await?;
@@ -200,7 +196,8 @@ pub async fn edit_character_ilvl(
     #[max = 1490]
     item_level: i32,
 ) -> Result<(), Error> {
-    match update_ilvl(&character_name, item_level) {
+    let db = &ctx.data().db;
+    match update_ilvl(&character_name, item_level, db).await {
         Ok(()) => {
             ctx.say(format!(
                 "Updated {}'s item level to {}",
@@ -208,7 +205,7 @@ pub async fn edit_character_ilvl(
             ))
             .await?;
         }
-        Err(diesel::result::Error::NotFound) => {
+        Err(DbErr::RecordNotFound(_)) => {
             ctx.say(format!("No character named {} found", character_name))
                 .await?;
         }

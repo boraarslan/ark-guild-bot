@@ -4,9 +4,18 @@ version = "0.1.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[workspace]
+members = [
+    ".",
+    "entity",
+    "migration"
+]
 
 [dependencies]
 tokio = {version = "1.17.0", features = ["full"]}
 dotenv = "0.15.0"
-diesel = {version = "1.4.8", features = ["sqlite"]}
+sea-orm = {version = "0.6.0", features = ["sqlx-sqlite", "runtime-tokio-rustls", "macros"], default-features = false}
 poise = {git = "https://github.com/kangalioo/poise"}
+chrono = "0.4.19"
+entity = {path = "entity"}
+migration = {path = "migration"}

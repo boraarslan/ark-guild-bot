@@ -1,4 +1,3 @@
-use crate::*;
 use super::*;
 
 
@@ -9,19 +8,13 @@ pub async fn register_guild(ctx: Context<'_>, name: String, #[flag] global: bool
             .await?;
     }
 
-    if let Some(_) = get_server(ctx.guild_id().expect("No guild id").0) {
-        remove_server(ctx.guild_id().expect("No guild id").0).expect("Failed to remove server");
+    let db = &ctx.data().db;
+
+    if let Ok(_) = get_server(ctx.guild_id().expect("No guild id").0, db).await {
+        remove_server(ctx.guild_id().expect("No guild id").0, db).await.expect("Failed to remove server");
     }
-    let connection = establish_connection();
 
-    let new_server = Server {
-        id: ctx.guild_id().expect("No guild id").0.to_string(),
-        guild_name: name,
-    };
+    insert_server(ctx.guild_id().expect("No guild id").0, &name, db).await?;
 
-    diesel::insert_into(servers::table)
-        .values(&new_server)
-        .execute(&connection)
-        .expect("Error saving new server");
     Ok(())
 }
