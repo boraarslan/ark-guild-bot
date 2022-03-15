@@ -25,11 +25,13 @@ pub async fn insert_server(
 pub async fn insert_guildmate(
     server_id: u64,
     guildmate_id: u64,
+    guildmate_role: Role,
     db: &DatabaseConnection,
 ) -> Result<(), DbErr> {
     let new_guildmate = guildmates::ActiveModel {
         id: Set(guildmate_id.to_string()),
         server_id: Set(server_id.to_string()),
+        role: Set(guildmate_role),
     };
 
     new_guildmate.insert(db).await?;
@@ -47,9 +49,9 @@ pub async fn insert_character(
     let new_character = characters::ActiveModel {
         id: Set(character_id.to_string()),
         name: Set(character_name.to_string()),
-        class: Set(character_class.to_string()),
+        class: Set(character_class),
         item_level: Set(character_item_level),
-        last_updated: Set(chrono::Utc::now().timestamp()),
+        last_updated: Set(chrono::Utc::now()),
     };
 
     new_character.insert(db).await?;
@@ -90,7 +92,7 @@ pub async fn get_all_characters(
     db: &DatabaseConnection,
 ) -> Result<Vec<characters::Model>, DbErr> {
     let characters = Characters::find()
-        .filter(characters::Column::Id.eq(guildmate_id))
+        .filter(characters::Column::Id.eq(guildmate_id.to_string()))
         .order_by_desc(characters::Column::ItemLevel)
         .all(db)
         .await?;
@@ -130,8 +132,8 @@ pub async fn update_character(
         Ok(existing_character) => {
             let mut existing_character: characters::ActiveModel = existing_character.into();
             existing_character.item_level = Set(character_item_level);
-            existing_character.class = Set(character_class.to_string());
-            existing_character.last_updated = Set(chrono::Utc::now().timestamp());
+            existing_character.class = Set(character_class);
+            existing_character.last_updated = Set(chrono::Utc::now());
 
             existing_character.update(db).await?;
 
@@ -151,7 +153,7 @@ pub async fn update_ilvl(
         Ok(existing_character) => {
             let mut existing_character: characters::ActiveModel = existing_character.into();
             existing_character.item_level = Set(character_item_level);
-            existing_character.last_updated = Set(chrono::Utc::now().timestamp());
+            existing_character.last_updated = Set(chrono::Utc::now());
 
             existing_character.update(db).await?;
 

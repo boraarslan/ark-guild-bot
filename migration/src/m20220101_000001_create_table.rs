@@ -1,4 +1,5 @@
 use entity::prelude::*;
+use entity::sea_orm::Iterable;
 use entity::{characters, guildmates, servers};
 use sea_schema::migration::prelude::*;
 use sea_schema::migration::{
@@ -13,10 +14,38 @@ impl MigrationName for Migration {
         "m20220101_000001_create_table"
     }
 }
+struct IdenRole;
+struct IdenClass;
+
+impl Iden for IdenRole {
+    fn unquoted(&self, s: &mut dyn std::fmt::Write) {
+        write!(s, "{}", "role").unwrap();
+    }
+}
+
+impl Iden for IdenClass {
+    fn unquoted(&self, s: &mut dyn std::fmt::Write) {
+        write!(s, "{}", "class").unwrap();
+    }
+}
 
 #[async_trait::async_trait]
 impl MigrationTrait for Migration {
     async fn up(&self, manager: &SchemaManager) -> Result<(), DbErr> {
+
+        // This is to create enums but since dropping enums from migrations is not yet supported
+        // this should be commented unless roles dropped manually
+
+        // let db = manager.get_database_backend();
+        // let schema = sea_orm::Schema::new(db);
+        // manager
+        //     .create_type(schema.create_enum_from_active_enum::<Class>())
+        //     .await?;
+        // manager
+        //     .create_type(schema.create_enum_from_active_enum::<Role>())
+        //     .await?;
+
+
         manager
             .create_table(
                 sea_query::Table::create()
@@ -46,8 +75,14 @@ impl MigrationTrait for Migration {
                             .text()
                             .not_null(),
                     )
+                    .col(
+                        ColumnDef::new(guildmates::Column::Role)
+                            .enumeration("role", guildmates::Role::iter())
+                            .not_null(),
+                    )
                     .foreign_key(
                         sea_query::ForeignKey::create()
+                            .name("fk-guildmates-servers")
                             .from(Guildmates, guildmates::Column::ServerId)
                             .to(Servers, servers::Column::Id)
                             .on_delete(ForeignKeyAction::Cascade)
@@ -60,14 +95,22 @@ impl MigrationTrait for Migration {
             .create_table(
                 sea_query::Table::create()
                     .table(Characters)
-                    .col(ColumnDef::new(characters::Column::Id).text().not_null())
+                    .col(
+                        ColumnDef::new(characters::Column::Id)
+                            .text()
+                            .not_null(),
+                    )
                     .col(
                         ColumnDef::new(characters::Column::Name)
                             .text()
                             .primary_key()
                             .not_null(),
                     )
-                    .col(ColumnDef::new(characters::Column::Class).text().not_null())
+                    .col(
+                        ColumnDef::new(characters::Column::Class)
+                            .enumeration("class", characters::Class::iter())
+                            .not_null(),
+                    )
                     .col(
                         ColumnDef::new(characters::Column::ItemLevel)
                             .integer()
@@ -75,11 +118,12 @@ impl MigrationTrait for Migration {
                     )
                     .col(
                         ColumnDef::new(characters::Column::LastUpdated)
-                            .big_integer()
+                            .timestamp_with_time_zone()
                             .not_null(),
                     )
                     .foreign_key(
                         sea_query::ForeignKey::create()
+                            .name("fk-characters-guildmates")
                             .from(Characters, characters::Column::Id)
                             .to(Guildmates, guildmates::Column::Id)
                             .on_delete(ForeignKeyAction::Cascade)
@@ -87,12 +131,37 @@ impl MigrationTrait for Migration {
                     )
                     .to_owned(),
             )
-            .await
+            .await?;
+        Ok(())
     }
 
     async fn down(&self, manager: &SchemaManager) -> Result<(), DbErr> {
-        manager.drop_table(sea_query::Table::drop().table(Characters).to_owned()).await?;
-        manager.drop_table(sea_query::Table::drop().table(Guildmates).to_owned()).await?;
-        manager.drop_table(sea_query::Table::drop().table(Servers).to_owned()).await
+        // Dropping enums from migrations is not yet supported.
+
+        manager
+            .drop_table(
+                sea_query::Table::drop()
+                    .table(Characters)
+                    .if_exists()
+                    .to_owned(),
+            )
+            .await?;
+        manager
+            .drop_table(
+                sea_query::Table::drop()
+                    .table(Guildmates)
+                    .if_exists()
+                    .to_owned(),
+            )
+            .await?;
+        manager
+            .drop_table(
+                sea_query::Table::drop()
+                    .table(Servers)
+                    .if_exists()
+                    .to_owned(),
+            )
+            .await?;
+        Ok(())
     }
 }

@@ -1,7 +1,7 @@
-use sea_orm::DbErr;
-use entity::characters;
 use super::*;
 use crate::*;
+use entity::characters;
+use sea_orm::DbErr;
 
 fn construct_character_list(characters: &Vec<characters::Model>) -> String {
     let mut character_list = String::new();
@@ -14,7 +14,7 @@ fn construct_character_list(characters: &Vec<characters::Model>) -> String {
     for character in characters {
         character_list.push_str(&format!(
             "{:<15} {:<15} -> {:<5} ilvl \n",
-            character.name, character.class, character.item_level
+            character.name, character.class.to_string(), character.item_level
         ));
     }
     character_list.push_str("```");
@@ -44,7 +44,8 @@ pub async fn character(
     match get_guildmate(ctx.author().id.0, db).await {
         Ok(_) => {}
         Err(DbErr::RecordNotFound(_)) => {
-            insert_guildmate(guild_id, ctx.author().id.0, &db)
+            ctx.say("Couldn't find guildmate record. Adding discord account as a guildmate first.").await?;
+            insert_guildmate(guild_id, ctx.author().id.0, Role::Guildmate, &db)
                 .await
                 .expect("Failed to insert guildmate");
         }
@@ -111,69 +112,69 @@ pub async fn delete_character(ctx: Context<'_>) -> Result<(), Error> {
     let db = &ctx.data().db;
     match get_all_characters(ctx.author().id.0, db).await {
         Ok(characters) => {
-                let custom_uuid = ctx.id();
+            let custom_uuid = ctx.id();
 
-                let character_list = construct_character_list(&characters);
-                ctx.send(|m| {
-                    m.embed(|e| {
-                        e.title(format!("Characters of {}", ctx.author().name))
-                            .field("Characters:", &character_list, false)
-                            .thumbnail(ctx.author().avatar_url().unwrap_or_default())
-                    })
-                    .components(|c| {
-                        c.create_action_row(|r| {
-                            r.create_select_menu(|m| {
-                                m.placeholder(format!("Select a character to delete"))
-                                    .options(|o| {
-                                        for character in characters {
-                                            o.create_option(|option| {
-                                                option
-                                                    .label(&character.name)
-                                                    .description(format!(
-                                                        "{:<15} -> {:<5} ilvl",
-                                                        character.class, character.item_level
-                                                    ))
-                                                    .value(&character.name)
-                                            });
-                                        }
-                                        o
-                                    })
-                                    .custom_id(custom_uuid)
-                            })
+            let character_list = construct_character_list(&characters);
+            ctx.send(|m| {
+                m.embed(|e| {
+                    e.title(format!("Characters of {}", ctx.author().name))
+                        .field("Characters:", &character_list, false)
+                        .thumbnail(ctx.author().avatar_url().unwrap_or_default())
+                })
+                .components(|c| {
+                    c.create_action_row(|r| {
+                        r.create_select_menu(|m| {
+                            m.placeholder(format!("Select a character to delete"))
+                                .options(|o| {
+                                    for character in characters {
+                                        o.create_option(|option| {
+                                            option
+                                                .label(&character.name)
+                                                .description(format!(
+                                                    "{:<15} -> {:<5} ilvl",
+                                                    character.class, character.item_level
+                                                ))
+                                                .value(&character.name)
+                                        });
+                                    }
+                                    o
+                                })
+                                .custom_id(custom_uuid)
                         })
                     })
                 })
+            })
+            .await?;
+
+            if let Some(mci) = serenity::CollectComponentInteraction::new(ctx.discord())
+                .author_id(ctx.author().id)
+                .channel_id(ctx.channel_id())
+                .timeout(std::time::Duration::from_secs(60))
+                .filter(move |mci| mci.data.custom_id == custom_uuid.to_string())
+                .await
+            {
+                remove_character(&mci.data.values[0], db)
+                    .await
+                    .expect("Failed to remove character");
+                mci.create_interaction_response(ctx.discord(), |ir| {
+                    ir.kind(serenity::model::interactions::InteractionResponseType::UpdateMessage)
+                })
                 .await?;
 
-                if let Some(mci) = serenity::CollectComponentInteraction::new(ctx.discord())
-                    .author_id(ctx.author().id)
-                    .channel_id(ctx.channel_id())
-                    .timeout(std::time::Duration::from_secs(60))
-                    .filter(move |mci| mci.data.custom_id == custom_uuid.to_string())
-                    .await
-                {
-                    remove_character(&mci.data.values[0], db).await.expect("Failed to remove character");
-                    mci.create_interaction_response(ctx.discord(), |ir| {
-                        ir.kind(
-                            serenity::model::interactions::InteractionResponseType::UpdateMessage,
-                        )
+                let mut msg = mci.message.clone();
+                msg.edit(ctx.discord(), |m| {
+                    m.embed(|e| {
+                        e.title("Character deleted")
+                            .description(format!(
+                                "```Deleted {} from your character list.```",
+                                mci.data.values[0]
+                            ))
+                            .thumbnail(ctx.author().avatar_url().unwrap_or_default())
                     })
-                    .await?;
-
-                    let mut msg = mci.message.clone();
-                    msg.edit(ctx.discord(), |m| {
-                        m.embed(|e| {
-                            e.title("Character deleted")
-                                .description(format!(
-                                    "```Deleted {} from your character list.```",
-                                    mci.data.values[0]
-                                ))
-                                .thumbnail(ctx.author().avatar_url().unwrap_or_default())
-                        })
-                        .components(|c| c)
-                    })
-                    .await?;
-                }
+                    .components(|c| c)
+                })
+                .await?;
+            }
         }
         Err(DbErr::RecordNotFound(_)) => {
             ctx.say("You dont have any characters.").await?;
