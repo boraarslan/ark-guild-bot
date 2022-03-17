@@ -1,8 +1,5 @@
 pub mod commands;
 pub mod database;
 
-use std::fmt::{Debug, Display};
-use entity::*;
+pub use entity::sea_orm_active_enums::*;
 
-pub use entity::characters::Class;
-pub use entity::guildmates::Role;

@@ -1593,7 +1593,7 @@ dependencies = [
  "ouroboros",
  "rust_decimal",
  "sea-orm-macros",
- "sea-query",
+ "sea-query 0.21.0",
  "sea-strum",
  "serde",
  "serde_json",
@@ -1630,6 +1630,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "sea-query"
+version = "0.22.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "727090e8d1e61edd07305d237664315226748ad559e16daa6293fa26c4e7a3c3"
+dependencies = [
+ "sea-query-derive",
+]
+
+[[package]]
 name = "sea-query-derive"
 version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1644,9 +1653,9 @@ dependencies = [
 
 [[package]]
 name = "sea-schema"
-version = "0.5.1"
+version = "0.6.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cfd47c9936ada6b8649b6602b7873ca4dd5edd0c2d8051a8ac3d9aba22b9e406"
+checksum = "b742be4671e8a78ee16226a0866ec9b41add825673a2933fd771eed31a4cee72"
 dependencies = [
  "async-std",
  "async-trait",
@@ -1654,7 +1663,7 @@ dependencies = [
  "dotenv",
  "log",
  "sea-orm",
- "sea-query",
+ "sea-query 0.22.0",
  "sea-schema-derive",
  "tracing",
  "tracing-subscriber",

@@ -14,7 +14,9 @@ fn construct_character_list(characters: &Vec<characters::Model>) -> String {
     for character in characters {
         character_list.push_str(&format!(
             "{:<15} {:<15} -> {:<5} ilvl \n",
-            character.name, character.class.to_string(), character.item_level
+            character.name,
+            character.class.to_string(),
+            character.item_level
         ));
     }
     character_list.push_str("```");
@@ -44,7 +46,8 @@ pub async fn character(
     match get_guildmate(ctx.author().id.0, db).await {
         Ok(_) => {}
         Err(DbErr::RecordNotFound(_)) => {
-            ctx.say("Couldn't find guildmate record. Adding discord account as a guildmate first.").await?;
+            ctx.say("Couldn't find guildmate record. Adding discord account as a guildmate first.")
+                .await?;
             insert_guildmate(guild_id, ctx.author().id.0, Role::Guildmate, &db)
                 .await
                 .expect("Failed to insert guildmate");

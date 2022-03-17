@@ -1,4 +1,4 @@
-use entity::prelude::*;
+use entity::{prelude::*, sea_orm_active_enums};
 use entity::sea_orm::sea_query::extension::postgres::TypeDropStatement;
 use entity::sea_orm::Iterable;
 use entity::{characters, guildmates, servers};
@@ -33,6 +33,7 @@ impl Iden for IdenClass {
 #[async_trait::async_trait]
 impl MigrationTrait for Migration {
     async fn up(&self, manager: &SchemaManager) -> Result<(), DbErr> {
+
         // Try to delete the types first.
         if let Err(err) = manager
             .drop_type(TypeDropStatement::new().name(IdenClass).to_owned())
@@ -58,10 +59,10 @@ impl MigrationTrait for Migration {
         let db = manager.get_database_backend();
         let schema = sea_orm::Schema::new(db);
         manager
-            .create_type(schema.create_enum_from_active_enum::<characters::Class>())
+            .create_type(schema.create_enum_from_active_enum::<sea_orm_active_enums::Class>())
             .await?;
         manager
-            .create_type(schema.create_enum_from_active_enum::<guildmates::Role>())
+            .create_type(schema.create_enum_from_active_enum::<sea_orm_active_enums::Role>())
             .await?;
 
         manager
@@ -95,7 +96,7 @@ impl MigrationTrait for Migration {
                     )
                     .col(
                         ColumnDef::new(guildmates::Column::Role)
-                            .enumeration("role", guildmates::Role::iter())
+                            .enumeration("role", sea_orm_active_enums::Role::iter())
                             .not_null(),
                     )
                     .foreign_key(
@@ -122,7 +123,7 @@ impl MigrationTrait for Migration {
                     )
                     .col(
                         ColumnDef::new(characters::Column::Class)
-                            .enumeration("class", characters::Class::iter())
+                            .enumeration("class", sea_orm_active_enums::Class::iter())
                             .not_null(),
                     )
                     .col(
@@ -132,7 +133,7 @@ impl MigrationTrait for Migration {
                     )
                     .col(
                         ColumnDef::new(characters::Column::LastUpdated)
-                            .timestamp_with_time_zone()
+                            .timestamp()
                             .not_null(),
                     )
                     .foreign_key(
@@ -176,7 +177,6 @@ impl MigrationTrait for Migration {
             .await?;
 
         // Drop Enums
-
         manager
             .drop_type(TypeDropStatement::new().name(IdenClass).to_owned())
             .await?;
