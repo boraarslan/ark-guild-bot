@@ -1,4 +1,5 @@
 use entity::prelude::*;
+use entity::sea_orm::sea_query::extension::postgres::TypeDropStatement;
 use entity::sea_orm::Iterable;
 use entity::{characters, guildmates, servers};
 use sea_schema::migration::prelude::*;
@@ -32,19 +33,36 @@ impl Iden for IdenClass {
 #[async_trait::async_trait]
 impl MigrationTrait for Migration {
     async fn up(&self, manager: &SchemaManager) -> Result<(), DbErr> {
+        // Try to delete the types first.
+        if let Err(err) = manager
+            .drop_type(TypeDropStatement::new().name(IdenClass).to_owned())
+            .await
+        {
+            println!(
+                "Couldn't delete type {}: {} \nContinuing...",
+                IdenClass.quoted('"'),
+                &err
+            );
+        }
+        if let Err(err) = manager
+            .drop_type(TypeDropStatement::new().name(IdenRole).to_owned())
+            .await
+        {
+            println!(
+                "Couldn't delete type {}: {} \nContinuing...",
+                IdenRole.quoted('"'),
+                &err
+            );
+        }
 
-        // This is to create enums but since dropping enums from migrations is not yet supported
-        // this should be commented unless roles dropped manually
-
-        // let db = manager.get_database_backend();
-        // let schema = sea_orm::Schema::new(db);
-        // manager
-        //     .create_type(schema.create_enum_from_active_enum::<Class>())
-        //     .await?;
-        // manager
-        //     .create_type(schema.create_enum_from_active_enum::<Role>())
-        //     .await?;
-
+        let db = manager.get_database_backend();
+        let schema = sea_orm::Schema::new(db);
+        manager
+            .create_type(schema.create_enum_from_active_enum::<characters::Class>())
+            .await?;
+        manager
+            .create_type(schema.create_enum_from_active_enum::<guildmates::Role>())
+            .await?;
 
         manager
             .create_table(
@@ -95,11 +113,7 @@ impl MigrationTrait for Migration {
             .create_table(
                 sea_query::Table::create()
                     .table(Characters)
-                    .col(
-                        ColumnDef::new(characters::Column::Id)
-                            .text()
-                            .not_null(),
-                    )
+                    .col(ColumnDef::new(characters::Column::Id).text().not_null())
                     .col(
                         ColumnDef::new(characters::Column::Name)
                             .text()
@@ -136,8 +150,6 @@ impl MigrationTrait for Migration {
     }
 
     async fn down(&self, manager: &SchemaManager) -> Result<(), DbErr> {
-        // Dropping enums from migrations is not yet supported.
-
         manager
             .drop_table(
                 sea_query::Table::drop()
@@ -162,6 +174,16 @@ impl MigrationTrait for Migration {
                     .to_owned(),
             )
             .await?;
+
+        // Drop Enums
+
+        manager
+            .drop_type(TypeDropStatement::new().name(IdenClass).to_owned())
+            .await?;
+        manager
+            .drop_type(TypeDropStatement::new().name(IdenRole).to_owned())
+            .await?;
+
         Ok(())
     }
 }
