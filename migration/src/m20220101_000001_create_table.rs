@@ -3,10 +3,6 @@ use entity::sea_orm::sea_query::extension::postgres::TypeDropStatement;
 use entity::sea_orm::Iterable;
 use entity::{characters, guildmates, servers};
 use sea_schema::migration::prelude::*;
-use sea_schema::migration::{
-    sea_query::{self, *},
-    *,
-};
 
 pub struct Migration;
 

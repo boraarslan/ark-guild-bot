@@ -25,6 +25,8 @@ pub enum Relation {
     Servers,
     #[sea_orm(has_many = "super::characters::Entity")]
     Characters,
+    #[sea_orm(has_many = "super::lobby::Entity")]
+    Lobby,
 }
 
 impl Related<super::servers::Entity> for Entity {
@@ -36,6 +38,12 @@ impl Related<super::servers::Entity> for Entity {
 impl Related<super::characters::Entity> for Entity {
     fn to() -> RelationDef {
         Relation::Characters.def()
+    }
+}
+
+impl Related<super::lobby::Entity> for Entity {
+    fn to() -> RelationDef {
+        Relation::Lobby.def()
     }
 }
 

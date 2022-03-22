@@ -2,5 +2,7 @@
 
 pub use super::characters::Entity as Characters;
 pub use super::guildmates::Entity as Guildmates;
+pub use super::lobby::Entity as Lobby;
+pub use super::lobby_player::Entity as LobbyPlayer;
 pub use super::seaql_migrations::Entity as SeaqlMigrations;
 pub use super::servers::Entity as Servers;
