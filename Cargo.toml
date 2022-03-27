@@ -14,7 +14,7 @@ members = [
 [dependencies]
 tokio = {version = "1.17.0", features = ["full"]}
 dotenv = "0.15.0"
-sea-orm = {version = "0.6.0", features = ["sqlx-postgres", "runtime-tokio-rustls", "macros"], default-features = false}
+sea-orm = {version = "0.7.1", features = ["sqlx-postgres", "runtime-tokio-rustls", "macros"], default-features = false}
 poise = {git = "https://github.com/kangalioo/poise"}
 chrono = "0.4.19"
 entity = {path = "entity"}
