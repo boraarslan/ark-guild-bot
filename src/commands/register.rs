@@ -1,3 +1,5 @@
+use entity::sea_orm_active_enums::Role;
+
 use super::*;
 
 
@@ -15,6 +17,8 @@ pub async fn register_guild(ctx: Context<'_>, name: String, #[flag] global: bool
     }
 
     insert_server(ctx.guild_id().expect("No guild id").0, &name, db).await?;
+    insert_guildmate(ctx.guild_id().expect("No guild id").0, ctx.author().id.0, Role::GuildMaster, db).await?;
+    ctx.say("Added you as a guildmaster!").await?;
 
     Ok(())
 }
