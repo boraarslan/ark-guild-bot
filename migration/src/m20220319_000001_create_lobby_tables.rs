@@ -61,12 +61,12 @@ impl MigrationTrait for Migration {
                     )
                     .col(
                         ColumnDef::new(lobby::Column::Created)
-                            .timestamp()
+                            .timestamp_with_time_zone()
                             .not_null(),
                     )
                     .col(
                         ColumnDef::new(lobby::Column::Scheduled)
-                            .timestamp()
+                            .timestamp_with_time_zone()
                             .not_null(),
                     )
                     .col(ColumnDef::new(lobby::Column::Active).boolean().not_null())

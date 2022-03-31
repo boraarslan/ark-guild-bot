@@ -129,7 +129,7 @@ impl MigrationTrait for Migration {
                     )
                     .col(
                         ColumnDef::new(characters::Column::LastUpdated)
-                            .timestamp()
+                            .timestamp_with_time_zone()
                             .not_null(),
                     )
                     .foreign_key(
