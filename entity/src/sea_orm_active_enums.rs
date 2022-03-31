@@ -2,6 +2,7 @@
 
 use std::fmt::{Debug, Display};
 
+use parse_display::Display;
 use sea_orm::entity::prelude::*;
 
 #[derive(Debug, Copy, Clone, PartialEq, EnumIter, DeriveActiveEnum, poise::ChoiceParameter)]
@@ -50,89 +51,123 @@ pub enum Role {
     #[sea_orm(string_value = "Officer")]
     Officer,
 }
-#[derive(Debug, Clone, Copy, PartialEq, EnumIter, DeriveActiveEnum)]
+#[derive(Debug, Clone, Copy, PartialEq, EnumIter, DeriveActiveEnum, Display)]
 #[sea_orm(rs_type = "String", db_type = "Enum", enum_name = "content")]
 pub enum Content {
     // Guardian Raids
     // Level 1
     #[sea_orm(string_value = "Urnil")]
+    #[display("Urnil")]
     Urnil,
     #[sea_orm(string_value = "Lumerus")]
+    #[display("Lumerus")]
     Lumerus,
     #[sea_orm(string_value = "IcyLegoros")]
+    #[display("Icy Legoros")]
     IcyLegoros,
     #[sea_orm(string_value = "Vertus")]
+    #[display("Vertus")]
     Vertus,
     // Level 2
     #[sea_orm(string_value = "Chromanium")]
+    #[display("Chromanium")]
     Chromanium,
     #[sea_orm(string_value = "Nacrasena")]
+    #[display("Nacrasena")]
     Nacrasena,
     #[sea_orm(string_value = "FlameFoxYoho")]
+    #[display("Flame Fox Yoho")]
     FlameFoxYoho,
     #[sea_orm(string_value = "Tytalos")]
+    #[display("Tytalos")]
     Tytalos,
     // Level 3
     #[sea_orm(string_value = "DarkLegoros")]
+    #[display("Dark Legoros")]
     DarkLegoros,
     #[sea_orm(string_value = "Helgaia")]
+    #[display("Helgaia")]
     Helgaia,
     #[sea_orm(string_value = "Calventus")]
+    #[display("Calventus")]
     Calventus,
     #[sea_orm(string_value = "Achates")]
+    #[display("Achates")]
     Achates,
     // Level 4
     #[sea_orm(string_value = "FrostHelgaia")]
+    #[display("Frost Helgaia")]
     FrostHelgaia,
     #[sea_orm(string_value = "LavaChromanium")]
+    #[display("Lava Chromanium")]
     LavaChromanium,
     #[sea_orm(string_value = "Levanos")]
+    #[display("Levanos")]
     Levanos,
     #[sea_orm(string_value = "Alberhastic")]
+    #[display("Alberhastic")]
     Alberhastic,
     // Level 5
     #[sea_orm(string_value = "ArmoredNacrasena")]
+    #[display("Armored Nacrasena")]
     ArmoredNacrasena,
     #[sea_orm(string_value = "Igrexion")]
+    #[display("Igrexion")]
     Igrexion,
     #[sea_orm(string_value = "NightFoxYoho")]
+    #[display("Night Fox Yoho")]
     NightFoxYoho,
     #[sea_orm(string_value = "Velganos")]
+    #[display("Velganos")]
     Velganos,
     // Abyss Dungeons
     // Tier 1.1
     #[sea_orm(string_value = "DemonBeastCanyon")]
+    #[display("Demon Beast Canyon")]
     DemonBeastCanyon,
     #[sea_orm(string_value = "NecromancersOrigin")]
+    #[display("Necromancers Origin")]
     NecromancersOrigin,
     // Tier 1.2
     #[sea_orm(string_value = "HallOfTheTwistedWarlord")]
+    #[display("Hall of The Twisted Warlord")]
     HallOfTheTwistedWarlord,
     #[sea_orm(string_value = "HildebrandtPalace")]
+    #[display("Hildebrandt Palace")]
     HildebrandtPalace,
     // Tier 2.1
     #[sea_orm(string_value = "RoadOfLament")]
+    #[display("Road of Lament")]
     RoadOfLament,
     #[sea_orm(string_value = "ForgeOfFallenPride")]
+    #[display("Forge of Fallen Pride")]
     ForgeOfFallenPride,
     // Tier 2.2 (8-Man)
     #[sea_orm(string_value = "SeaOfIndolence")]
+    #[display("Sea of Indolence")]
     SeaOfIndolence,
     #[sea_orm(string_value = "TranquilKarkosa")]
+    #[display("Tranquil Karkosa")]
     TranquilKarkosa,
     #[sea_orm(string_value = "AlaricsSanctuary")]
+    #[display("Alarics Sanctuary")]
     AlaricsSanctuary,
     // Tier 3.1
     #[sea_orm(string_value = "AirasOculus")]
+    #[display("Airas Oculus")]
     AirasOculus,
     #[sea_orm(string_value = "OrehaPreveza")]
+    #[display("Oreha Preveza")]
     OrehaPreveza,
     // Abyss Raids
     #[sea_orm(string_value = "Argos1")]
+    #[display("Argos1")]
     Argos1,
     #[sea_orm(string_value = "Argos2")]
+    #[display("Argos2")]
     Argos2,
     #[sea_orm(string_value = "Argos3")]
+    #[display("Argos3")]
     Argos3,
 }
 
@@ -195,12 +230,6 @@ impl Display for Class {
 }
 
 impl Display for Role {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        Debug::fmt(&self, f)
-    }
-}
-
-impl Display for Content {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         Debug::fmt(&self, f)
     }
