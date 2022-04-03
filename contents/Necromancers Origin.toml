@@ -1,0 +1,10 @@
+name = "Necromancers Origin"
+type = "abyss-dungeon"
+tier = 1
+ilvl_req = 340
+content_size = 4
+image = "https://cdn.discordapp.com/attachments/959843723485778000/959855919368384542/unknown.png"
+banner = "https://cdn.discordapp.com/attachments/959843723485778000/959856170414252162/unknown.png"
+guide = "https://lost-ark.maxroll.gg/abyssal-dungeons/necromancers-origin"
+gameplay_video = "https://www.youtube.com/watch?v=43v2UiHaAOY"
+introduction = "**First Boss: Reanimated Garum**\nReanimated Garum is a boss with slow but huge area of effect attacks. These attacks are easy to avoid, but the tricky part of this boss fight is to not lose track of the Death Marks above each player's head. One moment of carelessness can lead to an instant team wipe.\n**Second Boss: Sigmund the Immortal**\nSigmund the Immortal is the second boss of this abyssal dungeon. Don't worry he is not really immortal but as you can guess he will revive multiple times after death. How many times he revives and the duration of the fight depend on your execution of the co-op mechanic during the boss fight."

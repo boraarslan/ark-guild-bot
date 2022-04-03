@@ -1,0 +1,10 @@
+name = "Levanos"
+type = "guardian-raid"
+tier = 4
+ilvl_req = 1040
+content_size = 4
+image = "https://cdn.discordapp.com/attachments/959843723485778000/959853158597787699/unknown.png"
+banner = "https://cdn.discordapp.com/attachments/959843723485778000/959853181444165722/unknown.png"
+guide = "https://lost-ark.maxroll.gg/guardian-raids/levanos"
+gameplay_video = "https://www.youtube.com/watch?v=yYWJiAS-A3g"
+introduction = "Levanos's armor is the strongest one you have encountered so far and it demands the use of many Skills and Combat items with Weak Point affix. He has a few high damage skills in arsenal and is able to summon a sapling which makes him invisible. On top of that, the Guardian enrages below 30% HP and gets stronger."

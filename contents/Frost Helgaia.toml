@@ -1,0 +1,10 @@
+name = "Frost Helgaia"
+type = "guardian-raid"
+tier = 4
+ilvl_req = 960
+content_size = 4
+image = "https://cdn.discordapp.com/attachments/959843723485778000/959852050232004628/unknown.png"
+banner =  "https://cdn.discordapp.com/attachments/959843723485778000/959852075678842940/unknown.png"
+guide = "https://lost-ark.maxroll.gg/guardian-raids/frost-helgaia"
+gameplay_video = "https://www.youtube.com/watch?v=yb1ZR1zs7fQ"
+introduction = "This Guardian has a similar skillset as the Raid Level 3 Guardian Helgaia. But Frost Helgaia deals higher damage with his most frequent skills, even the Evolve mechanic has an additional layer of difficulty.\nAll of the Guardian's skills apply a Slow debuff on hit which stacks up to 10 times. Upon reaching 10 stacks, the player gets frozen for a few seconds and is exposed to Frost Helgaia's heavy hitting skills. Having cleansing skill classes in the party such as Paladin, Soulfist and Gunlancer, reduces the risk of slow and freeze significantly."

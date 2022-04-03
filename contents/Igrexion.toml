@@ -1,0 +1,10 @@
+name = "Igrexion"
+type = "guardian-raid"
+tier = 5
+ilvl_req = 1340
+content_size = 4
+image = "https://cdn.discordapp.com/attachments/959843723485778000/959854124764131368/unknown.png"
+banner = "https://cdn.discordapp.com/attachments/959843723485778000/959854149242089542/unknown.png"
+guide = "https://lost-ark.maxroll.gg/guardian-raids/igrexion"
+gameplay_video = "https://www.youtube.com/watch?v=dv94LwuW_4s"
+introduction = "This Guardian doesn't have much HP and as long as you deal decent damage you should be able to slay him with plenty of time left. The issue is that he has a lot of hard hitting skills which might one shot squishy classes. In general you should avoid staying in front of Igrexion if you are not a Gunlancer. If Igrexion turns his face towards you, don't run away from him, instead try to run around him. He uses a lot of frontal big Area of Effect(AoE) attacks, which makes running away from him less efficient.\nDuring the entire guardian fight, try to have vision on Igrexion. It is especially useful in the last phase, because you can predict and avoid one-hit skills based on his body movement."

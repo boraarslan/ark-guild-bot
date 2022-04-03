@@ -1,0 +1,10 @@
+name = "Achates"
+type = "guardian-raid"
+tier = 3
+ilvl_req = 920
+content_size = 4
+image = "https://cdn.discordapp.com/attachments/959843723485778000/959851640679202966/unknown.png"
+banner = "https://cdn.discordapp.com/attachments/959843723485778000/959851664930664478/unknown.png"
+guide = "https://lost-ark.maxroll.gg/guardian-raids/achates"
+gameplay_video = "https://www.youtube.com/watch?v=2pTdBjeVHtY"
+introduction = "Achates is a cooperation mechanics heavy Guardian. You need to work as a team to prevent him from enraging. Additionally, Achates breath and fire attacks apply a stacking Scorch debuff on the player. This debuff reduces the healing received and deals damage over time (DoT). Once you get the 4th stack of the debuff, you are surrounded by a flame circle which deals damage to any nearby teammates and applies the Scorch debuff. To prevent a chain reaction, the player with 4 stacks and the flame circle around him needs to move away from teammates. This leads to a huge damage drop, especially if a melee class is affected by it."

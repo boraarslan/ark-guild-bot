@@ -1,0 +1,10 @@
+name = "Alberhastic"
+type = "guardian-raid"
+tier = 4
+ilvl_req = 1080
+content_size = 4
+image = "https://cdn.discordapp.com/attachments/959843723485778000/959853348830462072/unknown.png"
+banner = "https://cdn.discordapp.com/attachments/959843723485778000/959853453868413009/unknown.png"
+guide = "https://lost-ark.maxroll.gg/guardian-raids/Alberhastic"
+gameplay_video = "https://www.youtube.com/watch?v=J3vjaMOyVZc"
+introduction = "Alberhastic is one of the most mechanically heavy Guardians with several one shot patterns you must execute properly. We will focus in this guide only on the important core skills of this Guardian. Depending on which shape he takes, he changes his play style and skill set. Alberhastic frequently summons Energy Orbs around him that need to be destroyed as soon as possible, otherwise the boss gets buffed!"

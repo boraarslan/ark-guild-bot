@@ -1,0 +1,10 @@
+name = "Demon Beast Canyon"
+type = "abyss-dungeon"
+tier = 1
+ilvl_req = 302
+content_size = 4
+image = "https://cdn.discordapp.com/attachments/959843723485778000/959855150678278174/unknown.png"
+banner = "https://cdn.discordapp.com/attachments/959843723485778000/959855181233815632/unknown.png"
+guide = "https://lost-ark.maxroll.gg/abyssal-dungeons/demon-beast-canyon"
+gameplay_video = "https://www.youtube.com/watch?v=LyksBEq5gkQ"
+introduction = "**First Boss: Corrupted Vazuela**\nCorrupted Vazuela has slow attack animations making it an easy boss battle. Vazuela spawns Blood Puddles on the ground reducing the amount of safe space you can stand in without taking damage. The longer this fight takes the more difficult it becomes.\nTo prevent this from happening, it is recommended to use skills and Combat Items which reduce the purple Stagger bar below the Guardian's HP. Once you deplete the purple bar and stagger the boss, all Blood Puddles are removed from the battleground.\n**Second Boss: Hideous Scarkril**\nHideous Scarkrill is the second boss of Demon Beast Canyon. It's more agile than the first boss and enters a stealth mode a few minutes after the initial encounter. To remove the stealth you need to work as a team and force the boss to teleport to specific locations."

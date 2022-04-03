@@ -1,0 +1,10 @@
+name = "Chromanium"
+type = "guardian-raid"
+tier = 2
+ilvl_req = 460
+content_size = 4
+image = "https://cdn.discordapp.com/attachments/959843723485778000/959847009358073916/unknown.png"
+banner = "https://cdn.discordapp.com/attachments/959843723485778000/959847099606892554/unknown.png"
+guide = "https://lost-ark.maxroll.gg/guardian-raids/chromanium"
+gameplay_video = "https://www.youtube.com/watch?v=FLXhYgTzagE"
+introduction = "This Guardian is the first one with a mandatory Part Destruction mechanic. This means that a part of the Guardian must be destroyed to progress through the phases. In this case Chromanium's hard shell reduces all damage taken until it's destroyed. To destroy the shell use skills and Battle Items with a Weak Point attribute. You can speed up this process by using the Corrosive Bomb and Destruction Bomb but make sure to not waste your awakening skills until the shell is broken."

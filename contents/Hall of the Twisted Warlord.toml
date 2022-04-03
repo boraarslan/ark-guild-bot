@@ -1,0 +1,10 @@
+name = "Hall of the Twisted Warlord"
+type = "abyss-dungeon"
+tier = 1
+ilvl_req = 460
+content_size = 4
+image = "https://cdn.discordapp.com/attachments/959843723485778000/959856440066064424/unknown.png"
+banner = "https://cdn.discordapp.com/attachments/959843723485778000/959857315153063997/unknown.png"
+guide = "https://lost-ark.maxroll.gg/abyssal-dungeons/hall-of-the-twisted-warlord"
+gameplay_video = "https://www.youtube.com/watch?v=4Vaj2N9prCc"
+introduction = "**First Boss: Phantom Legion Rook & Bishop**\nDuring the first boss encounter in Hall of the Twisted Warlord you have to fight against two bosses simultaneously. Most of the time they do their attacks independently of each other but there is a wipe mechanic where the Rook and the Bishop synchronize. This particular mechanic requires solid teamwork to prevent a wipe.\nBoth bosses need to be killed at the same time or the remaining boss will enrage. While enraged they get a massive damage buff and inherit some attacks from the dead counterpart. Slow down or stop damage on the boss with the lowest HP if there is a large difference between the two. Usually you have to slow down damage on the Bishop since she has lower HP and is easier to hit than the Rook. If your team is not capable of killing both bosses at the same time then it is better to kill the Rook first and let the Bishop enrage. Enraged rook is harder to beat than the enraged Bishop.\n**Second Boss: Phantom Legion King**\nThe second boss is the Phantom Legion King. Similar to the Rook & Bishop boss fight, the Illusion King has a wipe mechanic that requires additional focus, perfect timing and cooperation.This encounter has multiple Stagger checks. If your party lacks classes with Stagger skills, take Combat Items with neutralization so you can succeed."

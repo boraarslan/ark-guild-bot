@@ -1,0 +1,10 @@
+name = "Urnil"
+type = "guardian-raid"
+tier = 1
+ilvl_req = 302
+content_size = 4
+image = "https://cdn.discordapp.com/attachments/959843723485778000/959845659270340618/unknown.png"
+banner = "https://cdn.discordapp.com/attachments/959843723485778000/959843739558371429/unknown.png"
+guide = "https://lost-ark.maxroll.gg/guardian-raids/urnil"
+gameplay_video = "https://www.youtube.com/watch?v=SUGEu3g3aOs"
+introduction = "Ur'nil has simple and predictable attack patterns but also has an enraged state that increases its attack speed, damage and modifies some of the basic skills of the Guardian. Most of Ur'nil's attacks target the areas in front and behind the boss, so attacking Ur'nil from the side is the safest option."

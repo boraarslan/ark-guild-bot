@@ -1,0 +1,10 @@
+name = "Argos3"
+type = "abyss-raid"
+tier = 1
+ilvl_req = 1400
+content_size = 8
+image = "https://cdn.discordapp.com/attachments/959843723485778000/959864515619618826/unknown.png"
+banner = "https://cdn.discordapp.com/attachments/959843723485778000/959864532921110548/unknown.png"
+guide = "https://lost-ark.maxroll.gg/abyss-raids/argos-phase-3"
+gameplay_video = "https://www.youtube.com/watch?v=Lg1HzjeXqg8"
+introduction = "Argos phase 3 is easier than Phase 2. The Weather System shifts the focus more towards map awareness and survival than DPS. This phase has 3 different team wipe and 2 instant death mechanics. Surviving these requires teamwork."

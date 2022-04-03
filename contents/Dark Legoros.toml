@@ -1,0 +1,10 @@
+name = "Dark Legoros"
+type = "guardian-raid"
+tier = 3
+ilvl_req = 802
+content_size = 4
+image = "https://cdn.discordapp.com/attachments/959843723485778000/959850183066271774/unknown.png"
+banner = "https://cdn.discordapp.com/attachments/959843723485778000/959850327614578738/unknown.png"
+guide = "https://lost-ark.maxroll.gg/guardian-raids/dark-legoros"
+gameplay_video = "https://www.youtube.com/watch?v=QCmbWQ5j25c"
+introduction = "This Guardian deals high damage with most of his attacks and repositions itself frequently. The Backwards Jump attack can be cast successively, this makes the boss fight harder for classes with long animation time on their skills. Luckily, you can use the Backwards Jump attack to your advantage and force the boss into a corner. Once the Guardian has its back against the wall, the fight becomes significantly easier."

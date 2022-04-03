@@ -1,0 +1,10 @@
+name = "Flame Fox Yoho"
+type = "guardian-raid"
+tier = 2
+ilvl_req = 540
+content_size = 4
+image = "https://cdn.discordapp.com/attachments/959843723485778000/959849192296161310/unknown.png"
+banner = "https://cdn.discordapp.com/attachments/959843723485778000/959849246012629002/unknown.png"
+guide = "https://lost-ark.maxroll.gg/guardian-raids/flame-fox-yoho"
+gameplay_video = "https://www.youtube.com/watch?v=1AmaslYybS4"
+introduction = "This Guardian is a Fire Element Guardian with high mobility. A lot of attacks apply an on hit burn debuff which is why Panacea or classes with cleanse skills greatly increase the survival of the party.\nYoho has 3 Phases. Every time Yoho proceeds to the next phase, it gets new or modified attacks from previous phases. Yoho transitions to Phase 2 shortly after the first encounter. After the first escape and relocating to a new area, the Guardian is on phase 3.\nThe most important mechanics during the Guardian fight are the ones which can give a player the \"Burning Soul\" buff. This buff is mandatory to deal amplified damage to Yoho. The buff increases your attack power and speed for a specific duration."

@@ -1,0 +1,10 @@
+name = "Helgaia"
+type = "guardian-raid"
+tier = 3
+ilvl_req = 840
+content_size = 4
+image = "https://cdn.discordapp.com/attachments/959843723485778000/959850476235530340/unknown.png"
+banner = "https://cdn.discordapp.com/attachments/959843723485778000/959850699196354621/unknown.png"
+guide = "https://lost-ark.maxroll.gg/guardian-raids/helgaia"
+gameplay_video = ""
+introduction = "This Guardian has a unique evolve mechanic. The battle always starts with Helgaia being in its basic phase. In frequent intervals, the Guardian attempts to evolve into the next phase. This can be interrupted by using skills with Stagger affix. Once successfully evolved, Helgaia's attacks will be enhanced and new attacks become available.\nHelgaia's attacks apply a Burn debuff on hit. This Debuff is stackable and lasts for 20 seconds. Each additional stack resets the timer. Make sure to cleanse the debuff once you have 4 or more stacks. This can be done with Panacea or by making use of the cleansing skills of Gunlancer, Paladin or Soulfist."

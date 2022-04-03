@@ -1,0 +1,10 @@
+name = "Icy Legoros"
+type = "guardian-raid"
+tier = 1
+ilvl_req = 380
+content_size = 4
+image = "https://cdn.discordapp.com/attachments/959843723485778000/959846267226316800/unknown.png"
+banner = "https://cdn.discordapp.com/attachments/959843723485778000/959844772749660210/unknown.png"
+guide = "https://lost-ark.maxroll.gg/guardian-raids/icy-legoros"
+gameplay_video = "https://www.youtube.com/watch?v=vAbWkPBkzSM"
+introduction = "This Guardian has a smaller pool of attacks compared to the first two TIER 1 Guardians and doesn't have any enrage or low HP related attack modifications. Instead you have to face a highly agile Guardian with very few stationary moments. Once caught in it's combo attacks, Legoros can chain CC you for a longer period of time. Getting hit by the Freezing Breath attack can be fatal if Legoros decides to follow up with the High Impact Jump, don't get caught in this combo!"

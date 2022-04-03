@@ -1,0 +1,10 @@
+name = "Forge of Fallen Pride"
+type = "abyss-dungeon"
+tier = 2
+ilvl_req = 840
+content_size = 4
+image = "https://cdn.discordapp.com/attachments/959843723485778000/959860970572881940/unknown.png"
+banner = "https://cdn.discordapp.com/attachments/959843723485778000/959861126953320568/unknown.png"
+guide = "https://lost-ark.maxroll.gg/abyssal-dungeons/forge-of-fallen-pride"
+gameplay_video = "https://www.youtube.com/watch?v=Ue2PBwOsh9g"
+introduction = "**First Boss: Avadon**\nAvadon alone is a simple boss to slay, however if you don't shift the focus to his summons or react fast enough to avoid damaging your teammates, the difficulty increases.**Second Boss: Kaishur**\nKaishur has a possible wipe mechanic in his arsenal, which requires a swift change of focus and enough damage to succeed. Besides from that, the boss is agile and some of his skills will be enhanced once he reaches low HP."

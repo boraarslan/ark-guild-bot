@@ -1,0 +1,10 @@
+name = "Armored Nacrasena"
+type = "guardian-raid"
+tier = 5
+ilvl_req = 1302
+content_size = 4
+image = "https://cdn.discordapp.com/attachments/959843723485778000/959853720429031574/unknown.png"
+banner = "https://cdn.discordapp.com/attachments/959843723485778000/959853777303781456/unknown.png"
+guide = "https://lost-ark.maxroll.gg/guardian-raids/armored-nacrasena"
+gameplay_video = "https://www.youtube.com/watch?v=ub3V4Njo6aY"
+introduction = "This Guardian has attack patterns similar to the Raid Level 2 Guardian Nacrasena. He also moves and changes his position frequently, making the fight against Nacrasena especially difficult for classes with longer skill animations. Once you get used to the attack patterns and animations, the difficulty drops significantly.\nArmored Nacrasena is the first Guardian with 2 separate armor break mechanics. You must first destroy its armor and then you are able to destroy its tail on a followup stagger. Because of this, having a decent amount of Stagger affix related Combat Items or skills makes this fight way easier."

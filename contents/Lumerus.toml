@@ -1,0 +1,10 @@
+name = "Lumerus"
+type = "guardian-raid"
+tier = 1
+ilvl_req = 340
+content_size = 4
+image = "https://cdn.discordapp.com/attachments/959843723485778000/959845738366513202/unknown.png"
+banner = "https://cdn.discordapp.com/attachments/959843723485778000/959844514728669235/unknown.png"
+guide = "https://lost-ark.maxroll.gg/guardian-raids/lumerus"
+gameplay_video = "https://www.youtube.com/watch?v=egJb6T8jlIA"
+introduction = "Similar to the first Guardian Ur'nil, Lumerus has simple and predictable attack patterns. The majority of his attacks target Players in front and to the sides of the Guardian. Staying further away from Lumerus increases the chance of getting hit by big AoE attacks so try to stay close. Behind Lumerus is not only the safest spot but also enhances your skills with the Back Attack modifier."

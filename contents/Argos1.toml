@@ -1,0 +1,10 @@
+name = "Argos1"
+type = "abyss-raid"
+tier = 1
+ilvl_req = 1370
+content_size = 8
+image = "https://cdn.discordapp.com/attachments/959843723485778000/959864515619618826/unknown.png"
+banner = "https://cdn.discordapp.com/attachments/959843723485778000/959864532921110548/unknown.png"
+guide = "https://lost-ark.maxroll.gg/abyss-raids/argos-phase-1"
+gameplay_video = "https://www.youtube.com/watch?v=gPOX5T0WYzA"
+introduction = "The first phase of Argos doesn't have a full party wipe mechanic, hence surviving and clearing this phase heavily depends on individual performance. It is less coop heavy compared to the next phases of Argos. The unique mechanic Sun & Moon Affix dictates the flow and interaction during the battle."

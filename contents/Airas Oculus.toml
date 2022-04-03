@@ -1,0 +1,10 @@
+name = "Airas Oculus"
+type = "abyss-dungeon"
+tier = 3
+ilvl_req = 1325
+content_size = 4
+image = "https://cdn.discordapp.com/attachments/959843723485778000/959863095101108234/unknown.png"
+banner = "https://cdn.discordapp.com/attachments/959843723485778000/959863125388177508/unknown.png"
+guide = "https://lost-ark.maxroll.gg/abyssal-dungeons/airas-oculus"
+gameplay_video = "https://www.youtube.com/watch?v=7_7ZjXSors8"
+introduction = "**First Boss**\nEvery time you incapacitate the boss by using Stagger Damage he gets an stacking attack buff. Once he gets the third stack, he deals an insane amount of damage and starts to use 1 shot skills. To prevent this, make sure to remove Stagger runes attached to your skills and avoid using skills with high Stagger Damage. Keep the buff at 2 or below. Upon reaching 2 stacks, use the Grab mechanic to reduce the stack.\n**Second Boss**\nThis boss has a variety of skills which deal high damage in a huge area. On top of this he does faint/cheat attacks and changes the battle area upon reaching the 16th Hp bar (Phase 2) and 6th HP bar (Phase 3).\nThe boss heals over time if he is not affected by any damage over time (DoT) effects. Bleed is a great way to prevent the regeneration. If no one i the party has this rune make sure to use skills that deal DoT damage by debuffing the boss with various effects like burn or poison."

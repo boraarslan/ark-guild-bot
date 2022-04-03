@@ -1,0 +1,10 @@
+name = "Alarics Sanctuary"
+type = "abyss-dungeon"
+tier = 2
+ilvl_req = 960
+content_size = 8
+image = "https://cdn.discordapp.com/attachments/959843723485778000/959862440223465472/unknown.png"
+banner = "https://cdn.discordapp.com/attachments/959843723485778000/959862463824814151/unknown.png"
+guide = "https://lost-ark.maxroll.gg/abyssal-dungeons/alarics-sanctuary"
+gameplay_video = "https://www.youtube.com/watch?v=Rls9Qy5Qc9c"
+introduction = "**First Boss**\nThe first boss fight starts already with a unique mechanic. The raid is split into 2 parties of 4 players each who have to face different bosses in separate areas, at the same time. One party fights the Shark Boss and the other one against a Siren Boss. There is a crucial mechanic between both bosses which needs to be performed flawlessly to prevent a team wipe.\n**Second Boss**\nAn easier boss encounter compared to the first duo bosses. But this one also has a team wipe mechanic, which requires quick reaction and position awareness. This boss and the final one don't follow the typical water Abyssal Dungeon breath mechanic, so you don't need to keep track of the Breath Circle.\n**Third Boss**\nA boss with many Area of Effect (AoE) attacks, team wipe mechanics and 1 shot skills. It will be a long battle where any mistake can lead to an instant death. The boss can freeze players with some attacks and is very mobile, making it harder to hit the boss. If your party lacks damage you might need to use Whirlwind Grenade to incapacitate the boss more often. This gives you additional opportunities to deal uninterrupted damage."

@@ -1,0 +1,10 @@
+name = "Oreha Preveza"
+type = "abyss-dungeon"
+tier = 3
+ilvl_req = 1325
+content_size = 4
+image = "https://cdn.discordapp.com/attachments/959843723485778000/959863838314987590/unknown.png"
+banner = "https://cdn.discordapp.com/attachments/959843723485778000/959864043479367680/unknown.png"
+guide = "https://lost-ark.maxroll.gg/abyssal-dungeons/oreha-preveza"
+gameplay_video = "https://www.youtube.com/watch?v=7_7ZjXSors8"
+introduction = "**First Boss**\nThis boss starts off with a 20% attack buff, quickly incapacitate him to remove the buff. Do it by using skills and Combat Items with the Stagger affix. Additionally, he has another buff that stuns a player upon getting hit 3 times. Besides these 2 buffs, he can get additional buffs through his Totem mechanic. The boss himself isn't scary, but he becomes difficult to handle if you don't focus on removing his buffs.\n**Second Boss**\nThis boss has 3 different phases: earth, lightning and enraged. At the start of the fight, he is either in earth or lightning phase on normal mode and enraged phase in hard mode. Similar to the previous boss fight, this one requires high Stagger Damage. If necessary, make use of Whirlwind Grenade."

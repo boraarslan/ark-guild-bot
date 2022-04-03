@@ -1,0 +1,10 @@
+name = "Tytalos"
+type = "guardian-raid"
+tier = 2
+ilvl_req = 580
+content_size = 4
+image = "https://cdn.discordapp.com/attachments/959843723485778000/959849702801674320/unknown.png"
+banner = "https://cdn.discordapp.com/attachments/959843723485778000/959849858284527666/unknown.png"
+guide = "https://lost-ark.maxroll.gg/guardian-raids/tytalos"
+gameplay_video = "https://www.youtube.com/watch?v=NH_h8bpizcA"
+introduction = "This Guardian has a way smaller attack pool compared to the previous TIER 2 Guardian, Yoho of the Flames. Even if the pace of the fight feels slow, some signature skills can punish you severely if you are careless.\nThis is the first time you get introduced to a one shot mechanic, meaning you instantly die if the interaction isn't performed properly. The signature attack of Tytalos is called, Annihilation which requires you to interact with the sand cyclones at the correct moment. If the timing is off, you get one shot."

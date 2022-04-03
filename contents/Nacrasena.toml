@@ -1,0 +1,10 @@
+name = "Nacrasena"
+type = "guardian-raid"
+tier = 2
+ilvl_req = 500
+content_size = 4
+image = "https://cdn.discordapp.com/attachments/959843723485778000/959848554212511834/unknown.png"
+banner = "https://cdn.discordapp.com/attachments/959843723485778000/959848745544085604/unknown.png"
+guide = "https://lost-ark.maxroll.gg/guardian-raids/nacrasena"
+gameplay_video = "https://www.youtube.com/watch?v=PEqzdLThoCc"
+introduction = "Nacrasena is an agile Guardian with a lot of fast attack animations. This is especially hard for classes with long skill animations. Once you get used to the attack patterns and animations, the difficulty drops significantly.Cutting the tail off of Nacrasena gets rid of most of its attacks, making the fight much easier until the Guardian escapes to a different area and regrows its tail.Additionally, Countering and having a decent amount of Stagger related Combat Items or skills makes this fight way easier."

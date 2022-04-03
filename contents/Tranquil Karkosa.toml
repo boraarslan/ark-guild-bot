@@ -1,0 +1,10 @@
+name = "Tranquil Karkosa"
+type = "abyss-dungeon"
+tier = 2
+ilvl_req = 960
+content_size = 8
+image = "https://cdn.discordapp.com/attachments/959843723485778000/959861856065966120/unknown.png"
+banner = "https://cdn.discordapp.com/attachments/959843723485778000/959862103404052590/unknown.png"
+guide = "https://lost-ark.maxroll.gg/abyssal-dungeons/tranquil-karkosa"
+gameplay_video = "https://www.youtube.com/watch?v=09tpeGaO6NU"
+introduction = "**First Boss**\nThis Boss has 1 team wipe mechanic that requires Weak Point Damage to prevent it. On top of this he has an arsenal of big Area of Effect(AoE) attacks. These attacks make it hard to stay on the same spot without risking getting hit.\n**Second Boss**\nThe second boss has no team wipe mechanics. Pay attention to the Stagger Check and the summoned Puffer Fishes. Other than that, this boss is fairly easy to slay.\n**Third Boss**\nYou have to constantly keep track of the debuff stacks during this boss fight. The main wipe mechanic punishes the entire party, if even a single party member makes a mistake."

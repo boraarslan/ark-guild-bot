@@ -1,0 +1,10 @@
+name = "Sea of Indolence"
+type = "abyss-dungeon"
+tier = 2
+ilvl_req = 960
+content_size = 8
+image = "https://cdn.discordapp.com/attachments/959843723485778000/959861492000374854/unknown.png"
+banner = "https://cdn.discordapp.com/attachments/959843723485778000/959861517556260944/unknown.png"
+guide = "https://lost-ark.maxroll.gg/abyssal-dungeons/sea-of-indolence"
+gameplay_video = ""
+introduction = "**First Boss**\nYou fight this boss while wearing a special suit. This suit disables your normal class skills but enables a few unique skills, use these unique skills to defeat the Boss and Mini-Boss.\n**Second Boss**\nWhile fighting this boss, you have to constantly pay attention to your Breath Circle, which adds another layer of difficulty. Besides that, the Boss has multiple attacks with a Petrification Debuff on them. These skills petrify the player on hit, but teammates can hit the Petrified player to lift the Debuff.\nThe boss loses his legs at some point and with that also the attacks related to them. Instead, he uses modified version of the attacks with his hands."

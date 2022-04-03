@@ -1,0 +1,10 @@
+name = "Hildebrandt Palace"
+type = "abyss-dungeon"
+tier = 1
+ilvl_req = 460
+content_size = 4
+image = "https://cdn.discordapp.com/attachments/959843723485778000/959857981007208458/unknown.png"
+banner = "https://cdn.discordapp.com/attachments/959843723485778000/959858014188347412/unknown.png"
+guide = "https://lost-ark.maxroll.gg/abyssal-dungeons/hildebrandt-palace"
+gameplay_video = "https://www.youtube.com/watch?v=FjusOur5-f0"
+introduction = "**First Boss: Phantom Legion Queen**\nThe Phantom Legion Queen is an agile boss with varius teleport and dash skills. This makes the encounter more difficult for classes with long skill animation and preparation time. Additionally she also has a one shot mechanic which requires positional awareness and coordination.\n**Brelshaza Phase 1**\nThe second boss of the Abyssal Dungeon Hildebrandt Palace is Brelshaza. This Phase 1 encounter has no team wipe or one shot mechanics, instead you have to survive a mechanic where your movement skills are put to the test.\n**Brelshaza Phase 2**\nDuring Phase 2 Brelshaza keeps the general attack patterns of Phase 1 and acquires some new attacks. Additionally, you have to clear 2 wipe mechanics that are both repeated twice. And as if that wasn't enough, this boss battle gets significantly more difficult the longer the battle lasts."

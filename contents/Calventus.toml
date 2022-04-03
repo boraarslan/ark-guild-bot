@@ -1,0 +1,10 @@
+name = "Calventus"
+type = "guardian-raid"
+tier = 3
+ilvl_req = 880
+content_size = 4
+image = "https://cdn.discordapp.com/attachments/959843723485778000/959851094438203392/unknown.png"
+banner = "https://cdn.discordapp.com/attachments/959843723485778000/959851263577702451/unknown.png"
+guide = "https://lost-ark.maxroll.gg/guardian-raids/calventus"
+gameplay_video = "https://www.youtube.com/watch?v=_lATGN49Myw"
+introduction = "Calventus is a Guardian with high mobility that applies a stacking Armor Debuff with some of his attacks . This Debuff should be cleansed once you have more than 3 stacks. This can be done with Panacea, Sacred Charm(Needs to be used by a teammate.) or by making use of the cleansing skills from the Gunlancer, Paladin or Soulfist.\nThis Guardian has 2 Phases. Around 5 minutes after starting the Guardian fight or after escaping to a different area, the Guardian transitions to Phase 2 which modifies existing attacks and adds new ones to his arsenal. During Phase 2, you have to prevent Calventus from absorbing Dark Orbs. If he absorbs 4 of these, the Guardian enrages and becomes faster and stronger."

@@ -1,0 +1,10 @@
+name = "Vertus"
+type = "guardian-raid"
+tier = 1
+ilvl_req = 420
+content_size = 4
+image = "https://cdn.discordapp.com/attachments/959843723485778000/959846462504710214/unknown.png"
+banner = "https://cdn.discordapp.com/attachments/959843723485778000/959846553932140554/unknown.png"
+guide = "https://lost-ark.maxroll.gg/guardian-raids/vertus"
+gameplay_video = "https://www.youtube.com/watch?v=HNFT04z-Qlo"
+introduction = "Vertus has a combination of fast hard CC attacks and slow high damage attacks that can be very deadly. This fight has 3 different phases with phase 1 beginning when the Guardian is encountered, the transition to phase 2 happens shortly after the encounter begins or immediately after escaping to a new area. Vertus can also switch to phase 2 if you Stagger the Guardian while it is still in Phase 1. During the enraged Phase, Vertus glows red and deals increased damage. Phase 3 starts once the HP of the guardian drops below 25%, during this Phase the Guardian can't be Staggered. In addition to that, Vertus attacks faster and deals more damage."

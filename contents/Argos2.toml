@@ -1,0 +1,10 @@
+name = "Argos2"
+type = "abyss-raid"
+tier = 1
+ilvl_req = 1385
+content_size = 8
+image = "https://cdn.discordapp.com/attachments/959843723485778000/959864515619618826/unknown.png"
+banner = "https://cdn.discordapp.com/attachments/959843723485778000/959864532921110548/unknown.png"
+guide = "https://lost-ark.maxroll.gg/abyss-raids/argos-phase-2"
+gameplay_video = "https://www.youtube.com/watch?v=T8__79RGXbI"
+introduction = "The second phase of Argos is very dynamic and coop heavy. It consists of 5 sub phases and multiple wipe mechanics. The survival of one party depends on the communication and action of the other. During sub phase 1,3 and 5, you'll face Argos as a raid. Sub phase 2 and 4 splits the raid in half. One half keeps fighting Argos, the other half faces a mini boss with unique mechanics. For the mini boss phases, place classes with Weak Point affix on their skills into party 1(sun party) and classes with Stagger Damage affix focus into party 2(moon party). Additionally, slot the Battle Item Destruction Bomb if you are in the sun party and Whirlwind Grenade if you are in the moon party."

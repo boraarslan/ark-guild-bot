@@ -1,0 +1,10 @@
+name = "Road of Lament"
+type = "abyss-dungeon"
+tier = 2
+ilvl_req = 840
+content_size = 4
+image = "https://cdn.discordapp.com/attachments/959843723485778000/959860247802032158/unknown.png"
+banner = "https://cdn.discordapp.com/attachments/959843723485778000/959860268698075156/unknown.png"
+guide = "https://lost-ark.maxroll.gg/abyssal-dungeons/road-of-lament"
+gameplay_video = ""
+introduction = "**First Boss: Najjar**\nNajjar is a boss with few high damage attacks. Instead, he has a few attacks and patterns which can stun you and make you vulnerable for other incoming attacks. He has 1 mechanic in his arsenal with the potential to one shot if not done correctly.\n**Second Boss: Kaylara**\nKaylara has more mobility skills than the previous boss. She has a mechanic that 3 players must do correctly to prevent a team wipe. She also uses an attack that needs to be dodged otherwise it buffs her and makes it harder to stay close to the boss."

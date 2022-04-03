@@ -1,0 +1,10 @@
+name = "Velganos"
+type = "guardian-raid"
+tier = 5
+ilvl_req = 1385
+content_size = 4
+image = "https://cdn.discordapp.com/attachments/959843723485778000/959854736843108412/unknown.png"
+banner = "https://cdn.discordapp.com/attachments/959843723485778000/959854928237559848/unknown.png"
+guide = "https://lost-ark.maxroll.gg/guardian-raids/velganos-guardian-raid-guide"
+gameplay_video = "https://www.youtube.com/watch?v=f6A_2deeMA4"
+introduction = "This will probably be the most challenging Guardian you'll encounter so far. You need to dodge his devastating Breath attacks while maintaining your Light Buff. Additionally, you need to make sure that everyone has a sufficient amount of this buff to keep dealing normal damage. Selfishness will be punished. Once Velganos enrages, the difficulty increases even further and will require complete focus to survive. Overall, keeping vision on the Guardian is crucial because his highest hitting attacks can be easily predicted based on his animation. At the same time, losing vision increases the risk of dying."

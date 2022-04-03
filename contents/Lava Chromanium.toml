@@ -1,0 +1,10 @@
+name = "Lava Chromanium"
+type = "guardian-raid"
+tier = 4
+ilvl_req = 1000
+content_size = 4
+image = "https://cdn.discordapp.com/attachments/959843723485778000/959852836567531560/unknown.png"
+banner = "https://cdn.discordapp.com/attachments/959843723485778000/959852862786134096/unknown.png"
+guide = "https://lost-ark.maxroll.gg/guardian-raids/lava-chromanium"
+gameplay_video = "https://www.youtube.com/watch?v=jhkk6QKI-Lc"
+introduction = "This Guardian is a more deadly version of the Raid Level 2 Chromanium. Besides from its toughness, Lava Chromanium's sets the ground on fire similar to Flame Fox Yoho, making it a difficult encounter. His attacks apply a Burn debuff on hit, luckily it doesn't last that long. Additionally, the low HP mechanic Melting Core forces everyone to slay the Guardian as soon as possible. Otherwise you might end up using all your consumables and die one by one until a wipe occurs."

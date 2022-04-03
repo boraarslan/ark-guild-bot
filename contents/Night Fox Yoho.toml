@@ -1,0 +1,10 @@
+name = "Night Fox Yoho"
+type = "guardian-raid"
+tier = 5
+ilvl_req = 1370
+content_size = 4
+image = "https://cdn.discordapp.com/attachments/959843723485778000/959854400757710928/unknown.png"
+banner = "https://cdn.discordapp.com/attachments/959843723485778000/959854425764163634/unknown.png"
+guide = "https://lost-ark.maxroll.gg/guardian-raids/night-fox-yoho"
+gameplay_video = "https://www.youtube.com/watch?v=-z9RUq_of_g"
+introduction = "This Guardian has 4 phases. The first transition into phase 2 happens within a few minutes of the encounter. The Guardian advances to phase 3(first escape) and later to phase 4(second escape), upon escaping to a different battle area. Yoho is a guardian with tons of AoEs and high hitting skills. If you don't have a support class shielding you or don't have great gear, it can be a really hard and potion consuming fight. To reduce the damage you take, you have to kill the 2 Fox Ladies who are spawned frequently by Yoho. Once you kill a Fox Lady, they drop 2 orbs each. By picking up an orb grants a stackable defense buff up to 3 times, let the squishy classes pick those up first. Once everyone has 3 stacks, you can pick up the orbs in rotation to reset the buff timer.\nBe careful, there are a few skills and mechanics that can turn you or your teammates into Fox Ladies for about 20 seconds. If a player gets turned into a Fox Lady, they won't be able to use any normal skills. In addition to that, you can take damage from the boss's and teammate's skills. If you fail a core mechanic and get turned into a Fox Lady, make sure to run away from the boss and your teammates."
