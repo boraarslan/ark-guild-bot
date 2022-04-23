@@ -1,7 +1,7 @@
-use entity::{prelude::*, sea_orm_active_enums};
 use entity::sea_orm::sea_query::extension::postgres::TypeDropStatement;
 use entity::sea_orm::Iterable;
 use entity::{characters, guildmates, servers};
+use entity::{prelude::*, sea_orm_active_enums};
 use sea_schema::migration::prelude::*;
 
 pub struct Migration;
@@ -16,20 +16,19 @@ struct IdenClass;
 
 impl Iden for IdenRole {
     fn unquoted(&self, s: &mut dyn std::fmt::Write) {
-        write!(s, "{}", "role").unwrap();
+        write!(s, "role").unwrap();
     }
 }
 
 impl Iden for IdenClass {
     fn unquoted(&self, s: &mut dyn std::fmt::Write) {
-        write!(s, "{}", "class").unwrap();
+        write!(s, "class").unwrap();
     }
 }
 
 #[async_trait::async_trait]
 impl MigrationTrait for Migration {
     async fn up(&self, manager: &SchemaManager) -> Result<(), DbErr> {
-
         // Try to delete the types first.
         if let Err(err) = manager
             .drop_type(TypeDropStatement::new().name(IdenClass).to_owned())
@@ -72,6 +71,11 @@ impl MigrationTrait for Migration {
                             .not_null(),
                     )
                     .col(ColumnDef::new(servers::Column::GuildName).text().not_null())
+                    .col(
+                        ColumnDef::new(servers::Column::Timezone)
+                            .integer()
+                            .not_null(),
+                    )
                     .to_owned(),
             )
             .await?;
@@ -79,12 +83,7 @@ impl MigrationTrait for Migration {
             .create_table(
                 sea_query::Table::create()
                     .table(Guildmates)
-                    .col(
-                        ColumnDef::new(guildmates::Column::Id)
-                            .text()
-                            .primary_key()
-                            .not_null(),
-                    )
+                    .col(ColumnDef::new(guildmates::Column::Id).text().not_null())
                     .col(
                         ColumnDef::new(guildmates::Column::ServerId)
                             .text()
@@ -94,6 +93,11 @@ impl MigrationTrait for Migration {
                         ColumnDef::new(guildmates::Column::Role)
                             .enumeration("role", sea_orm_active_enums::Role::iter())
                             .not_null(),
+                    )
+                    .primary_key(
+                        Index::create()
+                            .col(guildmates::Column::Id)
+                            .col(guildmates::Column::ServerId),
                     )
                     .foreign_key(
                         sea_query::ForeignKey::create()
@@ -112,11 +116,11 @@ impl MigrationTrait for Migration {
                     .table(Characters)
                     .col(ColumnDef::new(characters::Column::Id).text().not_null())
                     .col(
-                        ColumnDef::new(characters::Column::Name)
+                        ColumnDef::new(characters::Column::GuildId)
                             .text()
-                            .primary_key()
                             .not_null(),
                     )
+                    .col(ColumnDef::new(characters::Column::Name).text().not_null())
                     .col(
                         ColumnDef::new(characters::Column::Class)
                             .enumeration("class", sea_orm_active_enums::Class::iter())
@@ -132,11 +136,22 @@ impl MigrationTrait for Migration {
                             .timestamp_with_time_zone()
                             .not_null(),
                     )
+                    .primary_key(
+                        Index::create()
+                            .col(characters::Column::Name)
+                            .col(characters::Column::GuildId),
+                    )
                     .foreign_key(
                         sea_query::ForeignKey::create()
                             .name("fk-characters-guildmates")
-                            .from(Characters, characters::Column::Id)
-                            .to(Guildmates, guildmates::Column::Id)
+                            .from(
+                                Characters,
+                                (characters::Column::Id, characters::Column::GuildId),
+                            )
+                            .to(
+                                Guildmates,
+                                (guildmates::Column::Id, guildmates::Column::ServerId),
+                            )
                             .on_delete(ForeignKeyAction::Cascade)
                             .on_update(ForeignKeyAction::Cascade),
                     )

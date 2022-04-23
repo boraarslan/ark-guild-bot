@@ -1,12 +1,9 @@
-use poise::serenity_prelude as serenity;
-use sea_orm::DatabaseConnection;
 use crate::database::*;
+use poise::serenity_prelude as serenity;
 pub mod characters;
-pub mod register;
 pub mod lobby;
+pub mod register;
 
-pub struct Data {
-    pub db: DatabaseConnection
-}
-pub type Error = Box<dyn std::error::Error + Send + Sync>;
-pub type Context<'a> = poise::Context<'a, Data, Error>;
+pub use crate::Context;
+pub use crate::Data;
+pub use crate::Error;
