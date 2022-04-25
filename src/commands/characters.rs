@@ -7,14 +7,14 @@ fn construct_character_list(characters: &Vec<characters::Model>) -> String {
     let mut character_list = String::new();
     character_list.push_str("```");
     character_list.push_str(&format!(
-        "{:<15} {:<15}    {}\n",
+        "{:<15} {:<15} {}\n",
         "Name", "Class", "Item Level"
     ));
-    character_list.push_str(&format!("{:-<15} {:-<15}    {:-<10}\n", "", "", ""));
+    character_list.push_str(&format!("{:-<15} {:-<15} {:-<10}\n", "", "", ""));
     for character in characters {
         character_list.push_str(&format!(
-            "{:<15} {:<15} -> {:<5} ilvl \n",
-            character.name, character.class, character.item_level
+            "{:<15} {:<15} {} ilvl\n",
+            character.name, character.class.to_string(), character.item_level
         ));
     }
     character_list.push_str("```");
