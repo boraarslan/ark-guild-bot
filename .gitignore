@@ -5,3 +5,5 @@ data.db
 data.db-shm
 data.db-wal
 contents/template.toml
+fleet.toml
+.cargo
