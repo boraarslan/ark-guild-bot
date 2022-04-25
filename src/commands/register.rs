@@ -43,7 +43,7 @@ pub async fn register_guild(
     Ok(())
 }
 
-#[poise::command(prefix_command, hide_in_help, required_permissions = "ADMINISTRATOR")]
+#[poise::command(prefix_command, hide_in_help, owners_only)]
 pub async fn register_commands(
     ctx: Context<'_>,
     #[description = "Will be removed"]
