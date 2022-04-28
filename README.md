@@ -3,6 +3,10 @@ Ark Guild Helper
 
 Ark Guild Helper is a guild Discord bot for managing *Lost Ark* lobbies. It allows guilds and players to plan the content they want to do with an easy user interface using slash commands and Discord components.
 
+Features
+====================
+Aside from being fully async (thanks to Poise, Serenity and SeaORM) Ark Guild Helper can reinitialize active lobbies when restarted so you can use the original bot messages to interact with the lobbies.
+
 ## Screenshots
 
 You can register your characters:
