@@ -16,24 +16,28 @@ pub struct Model {
     pub active: bool,
 }
 
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+#[derive(Copy, Clone, Debug, EnumIter)]
 pub enum Relation {
-    #[sea_orm(
-        belongs_to = "super::characters::Entity",
-        from = "Column::GuildId",
-        to = "super::characters::Column::GuildId",
-        on_update = "Cascade",
-        on_delete = "Cascade"
-    )]
     Characters,
-    #[sea_orm(
-        belongs_to = "super::lobby::Entity",
-        from = "Column::LobbyId",
-        to = "super::lobby::Column::LobbyId",
-        on_update = "Cascade",
-        on_delete = "Cascade"
-    )]
     Lobby,
+}
+
+impl RelationTrait for Relation {
+    fn def(&self) -> RelationDef {
+        match self {
+            Relation::Characters => Entity::belongs_to(super::characters::Entity)
+                .from((Column::GuildId, Column::CharacterName))
+                .to((
+                    super::characters::Column::GuildId,
+                    super::characters::Column::Name,
+                ))
+                .into(),
+            Relation::Lobby => Entity::belongs_to(super::lobby::Entity)
+                .from((Column::LobbyId, Column::GuildId))
+                .to((super::lobby::Column::LobbyId, super::lobby::Column::GuildId))
+                .into(),
+        }
+    }
 }
 
 impl Related<super::characters::Entity> for Entity {

@@ -17,18 +17,26 @@ pub struct Model {
     pub last_updated: DateTimeUtc,
 }
 
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+#[derive(Copy, Clone, Debug, EnumIter)]
 pub enum Relation {
-    #[sea_orm(
-        belongs_to = "super::guildmates::Entity",
-        from = "Column::Id",
-        to = "super::guildmates::Column::Id",
-        on_update = "Cascade",
-        on_delete = "Cascade"
-    )]
     Guildmates,
-    #[sea_orm(has_many = "super::lobby_player::Entity")]
     LobbyPlayer,
+}
+
+impl RelationTrait for Relation {
+    fn def(&self) -> RelationDef {
+        match self {
+            Self::Guildmates => {
+                Entity::belongs_to(super::guildmates::Entity)
+                .from((Column::Id, Column::GuildId))
+                .to((super::guildmates::Column::Id, super::guildmates::Column::ServerId))
+                .into()
+            },
+            Self::LobbyPlayer => {
+                Entity::has_many(super::lobby_player::Entity).into()
+            }
+        }
+    }
 }
 
 impl Related<super::guildmates::Entity> for Entity {
