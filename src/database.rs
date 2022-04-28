@@ -420,23 +420,16 @@ pub async fn remove_lobby_player(
     Ok(())
 }
 
-// I AM FURIOUS
-// HOW COME FIND RELATED CHAINS RETURN PERMUTATION OF ALL CHARACTERS HOW IS THIS POSSIBLE
-// TODO!:TODO!:TODO!:TODO!:TODO!:TODO!:TODO!:TODO!:TODO!:TODO!:TODO!:TODO!:TODO!:TODO!:TODO!:TODO!:TODO!:TODO!:TODO!:TODO!:TODO!:TODO!:TODO!:TODO!:TODO!:TODO!:
-// FIX THIS MONSTROSITY WHEN YOU LEARN HOW JOIN TABLE WORKS
 pub async fn get_active_characters_joined(
     lobby_id: Uuid,
     db: &DatabaseConnection,
 ) -> Result<Vec<characters::Model>, DbErr> {
-    let lobby_players = get_lobby_players(lobby_id, db).await?;
-    let mut chars = vec![];
-
-    for player in lobby_players {
-        chars.push(
-            get_single_character(&player.character_name, player.guild_id.parse().unwrap(), db)
-                .await?,
-        );
-    }
+    let chars = Lobby::find()
+        .filter(lobby::Column::LobbyId.eq(lobby_id))
+        .find_also_linked(Characters)
+        .all(db)
+        .await?
+        .into_iter().flat_map(|m| m.1).collect();
 
     Ok(chars)
 }
