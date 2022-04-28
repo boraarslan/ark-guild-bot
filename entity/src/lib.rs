@@ -11,3 +11,19 @@ pub mod seaql_migrations;
 pub mod servers;
 
 pub use sea_orm;
+
+use sea_orm::{Linked, RelationTrait};
+use prelude::*;
+
+impl Linked for Characters {
+    type FromEntity = Lobby;
+
+    type ToEntity = Characters;
+
+    fn link(&self) -> Vec<sea_orm::LinkDef> {
+        vec![
+            lobby::Relation::LobbyPlayer.def(),
+            lobby_player::Relation::Characters.def()
+        ]
+    }
+}
