@@ -376,7 +376,7 @@ pub async fn create_lobby(
     // I spent too much time thinking about this and i am not proud of it.
 
     insert_lobby(&lobby_context_locked.read(), db).await?;
-    let (sender, mut reciever) = unbounded_channel::<EventComponent>();
+    let (sender, mut reciever) = unbounded_channel::<LobbyEvent>();
     ctx.data()
         .active_lobbies
         .write()
@@ -391,8 +391,8 @@ pub async fn create_lobby(
     tokio::spawn({
         let db = ctx.data().db.clone();
         async move {
-            while let Some(event_c) = reciever.recv().await {
-                match process_lobby_event(event_c, lobby_context_locked.clone(), &db).await {
+            while let Some(event) = reciever.recv().await {
+                match process_lobby_event(event, lobby_context_locked.clone(), &db).await {
                     Ok(_) => {}
                     Err(err) => {
                         println!("Error processing event: {err}")

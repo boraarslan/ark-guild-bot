@@ -1,11 +1,13 @@
-use std::sync::Arc;
-
+use anyhow::anyhow;
+use anyhow::Result;
 use entity::sea_orm_active_enums::Content;
+use once_cell::sync::Lazy;
 use parking_lot::RwLock;
 use parse_display::Display;
-use poise::serenity_prelude as serenity;
 use poise::serenity_prelude::CreateSelectMenuOption;
+use poise::serenity_prelude::{self as serenity, MessageComponentInteraction};
 use sea_orm::{DatabaseConnection, DbErr};
+use std::sync::Arc;
 
 use crate::{
     database::{
@@ -63,41 +65,92 @@ impl LobbyContent {
         }
     }
 }
+// List of lobby events tracked by event listener
+// This list acts like a filter. Any event that is not in this
+// list gets filtered.
+pub static LOBBY_EVENTS: Lazy<Vec<&str>> = Lazy::new(|| {
+    vec!["lobby-join", "player-join", "lobby-leave"]
+});
+
+// This event is constructed and sent to the lobby manager task.
 pub enum LobbyEvent {
-    LobbyJoin,
-    PlayerJoin,
-    LobbyLeave,
+    LobbyJoin(EventComponent),
+    PlayerJoin(EventComponent),
+    LobbyLeave(EventComponent),
 }
 
-#[derive(Debug, Display)]
-#[display("...")]
-pub struct EventParseError {}
+impl LobbyEvent {
+    pub fn new() -> EventBuilder {
+        EventBuilder::default()
+    }
+}
 
-impl std::error::Error for EventParseError {}
+// A builder type for LobbyEvent
+#[derive(Default)]
+pub struct EventBuilder {
+    interaction: Option<MessageComponentInteraction>,
+    http_client: Option<Arc<serenity::http::client::Http>>,
+}
 
-impl TryFrom<&str> for LobbyEvent {
-    type Error = EventParseError;
+impl EventBuilder {
+    pub fn component_interaction(mut self, interaction: MessageComponentInteraction) -> Self {
+        self.interaction = Some(interaction);
+        self
+    }
 
-    fn try_from(value: &str) -> Result<Self, Self::Error> {
-        match value {
-            "lobby-join" => Ok(Self::LobbyJoin),
-            "player-join" => Ok(Self::PlayerJoin),
-            "lobby-leave" => Ok(Self::LobbyLeave),
-            _ => Err(EventParseError {}),
+    pub fn http_client(mut self, client: Arc<serenity::http::client::Http>) -> Self {
+        self.http_client = Some(client);
+        self
+    }
+
+    fn check_for_event_component(&self, event: &str) -> Result<()> {
+        if let None = self.interaction {
+            return Err(anyhow!("Interaction must be set for event {event}"))
+        }
+        if let None = self.http_client {
+            return Err(anyhow!("Http client must be set for event {event}"))
+        }
+        Ok(())
+    }
+
+    pub fn build(self, event: &str) -> Result<LobbyEvent> {
+        match event {
+            "lobby-join" => {
+                self.check_for_event_component(event)?;
+                Ok(LobbyEvent::LobbyJoin(EventComponent {
+                    message_component_interaction: self.interaction.unwrap(),
+                    http_client: self.http_client.unwrap(),
+                }))
+            }
+            "player-join" => {
+                self.check_for_event_component(event)?;
+                Ok(LobbyEvent::PlayerJoin(EventComponent {
+                    message_component_interaction: self.interaction.unwrap(),
+                    http_client: self.http_client.unwrap(),
+                }))
+            }
+            "lobby-leave" => {
+                self.check_for_event_component(event)?;
+                Ok(LobbyEvent::LobbyLeave(EventComponent {
+                    message_component_interaction: self.interaction.unwrap(),
+                    http_client: self.http_client.unwrap(),
+                }))
+            }
+            _ => Err(anyhow!("Got event: {event}. Which is not tracked"))
         }
     }
 }
 
 pub async fn process_lobby_event(
-    event_c: EventComponent,
+    event: LobbyEvent,
     lobby_context_locked: Arc<RwLock<LobbyContext>>,
     db: &DatabaseConnection,
 ) -> Result<(), Error> {
-    match event_c.event {
-        LobbyEvent::LobbyJoin => {
+    match event {
+        LobbyEvent::LobbyJoin(component) => {
             let lobby_context = lobby_context_locked.read();
-            let mci = event_c.message_component_interaction;
-            let http_client = event_c.http_client;
+            let mci = component.message_component_interaction;
+            let http_client = component.http_client;
 
             // Check if lobby is full
             if lobby_context.content_info().content_size == lobby_context.active_players.len() {
@@ -199,9 +252,9 @@ pub async fn process_lobby_event(
             };
             Ok(())
         }
-        LobbyEvent::PlayerJoin => {
-            let mci = event_c.message_component_interaction;
-            let http_client = event_c.http_client;
+        LobbyEvent::PlayerJoin(component) => {
+            let mci = component.message_component_interaction;
+            let http_client = component.http_client;
             //
             let (channel, message_id) = {
                 let lobby_context = lobby_context_locked.read();
@@ -255,9 +308,9 @@ pub async fn process_lobby_event(
 
             Ok(())
         }
-        LobbyEvent::LobbyLeave => {
-            let mci = event_c.message_component_interaction;
-            let http_client = event_c.http_client;
+        LobbyEvent::LobbyLeave(component) => {
+            let mci = component.message_component_interaction;
+            let http_client = component.http_client;
 
             let (channel, message_id) = {
                 let lobby_context = lobby_context_locked.read();

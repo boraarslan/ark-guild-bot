@@ -1,14 +1,14 @@
 use ark_guild_bot::{
     commands::{
         characters::*,
-        lobby::{command::*, context::LobbyContext, helper::process_lobby_event},
+        lobby::{command::*, context::LobbyContext, helper::{process_lobby_event, LobbyEvent}},
         register::*,
         Data,
     },
     database::{disable_lobby, get_active_characters_joined, get_active_lobbies},
     info::ContentInfo,
     listener::listener,
-    Error, EventComponent,
+    Error,
 };
 use chrono::Utc;
 use dotenv::dotenv;
@@ -71,7 +71,7 @@ async fn main() -> Result<(), Error> {
 
 async fn init_active_lobbies(
     db: &'static DatabaseConnection,
-) -> Result<RwLock<HashMap<String, UnboundedSender<EventComponent>>>, DbErr> {
+) -> Result<RwLock<HashMap<String, UnboundedSender<LobbyEvent>>>, DbErr> {
     let mut lobby_map = HashMap::new();
     let active_lobbies = get_active_lobbies(db).await?;
     for lobby in active_lobbies {
