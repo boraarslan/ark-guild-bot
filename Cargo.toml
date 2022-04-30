@@ -15,7 +15,7 @@ members = [
 ]
 
 [dependencies]
-tokio = {version = "1.17.0", features = ["full"]}
+tokio = {version = "1.18.0", features = ["full"]}
 dotenv = "0.15.0"
 sea-orm = {version = "0.7.1", features = ["sqlx-postgres", "runtime-tokio-rustls", "macros"], default-features = false}
 poise = "0.1.0"
