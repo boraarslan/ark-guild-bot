@@ -31,3 +31,4 @@ parking_lot = "0.12.0"
 dateparser = "0.1.6"
 hashbrown = "0.12.0"
 uuid = { version = "0.8.2", features = ["v4"]}
+anyhow = "1.0.57"
