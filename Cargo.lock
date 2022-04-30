@@ -69,7 +69,7 @@ dependencies = [
  "once_cell",
  "parking_lot 0.12.0",
  "parse-display",
- "poise 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "poise",
  "sea-orm",
  "serde",
  "tokio",
@@ -627,7 +627,7 @@ version = "0.1.0"
 dependencies = [
  "enum-iterator",
  "parse-display",
- "poise 0.1.0 (git+https://github.com/kangalioo/poise)",
+ "poise",
  "sea-orm",
  "strum",
 ]
@@ -1433,24 +1433,7 @@ dependencies = [
  "futures-util",
  "log",
  "once_cell",
- "poise_macros 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "regex",
- "serenity",
- "tokio",
-]
-
-[[package]]
-name = "poise"
-version = "0.1.0"
-source = "git+https://github.com/kangalioo/poise#34d5863d292bb220d0b24fdd5a12eb79081c268a"
-dependencies = [
- "async-trait",
- "derivative",
- "futures-core",
- "futures-util",
- "log",
- "once_cell",
- "poise_macros 0.1.0 (git+https://github.com/kangalioo/poise)",
+ "poise_macros",
  "regex",
  "serenity",
  "tokio",
@@ -1461,17 +1444,6 @@ name = "poise_macros"
 version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "da5d16486f03d740d408deed8b79d6048458f052777158ae6f55a7739d54fa86"
-dependencies = [
- "darling",
- "proc-macro2",
- "quote",
- "syn",
-]
-
-[[package]]
-name = "poise_macros"
-version = "0.1.0"
-source = "git+https://github.com/kangalioo/poise#34d5863d292bb220d0b24fdd5a12eb79081c268a"
 dependencies = [
  "darling",
  "proc-macro2",
