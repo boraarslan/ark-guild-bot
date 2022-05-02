@@ -1,6 +1,9 @@
 use anyhow::anyhow;
 use anyhow::Result;
+use chrono::DateTime;
+use chrono::Utc;
 use entity::sea_orm_active_enums::Content;
+use hashbrown::HashMap;
 use once_cell::sync::Lazy;
 use parking_lot::RwLock;
 use parse_display::Display;
@@ -8,7 +11,10 @@ use poise::serenity_prelude::CreateSelectMenuOption;
 use poise::serenity_prelude::{self as serenity, MessageComponentInteraction};
 use sea_orm::{DatabaseConnection, DbErr};
 use std::sync::Arc;
+use tokio::sync::mpsc::UnboundedSender;
 
+use crate::database::disable_lobby;
+use crate::database::get_lobby;
 use crate::{
     database::{
         get_all_character_by_ilvl, get_single_character, insert_lobby_player, remove_lobby_player,
@@ -65,18 +71,22 @@ impl LobbyContent {
         }
     }
 }
-// List of lobby events tracked by event listener
+/// List of lobby events tracked by event listener
 // This list acts like a filter. Any event that is not in this
 // list gets filtered.
-pub static LOBBY_EVENTS: Lazy<Vec<&str>> = Lazy::new(|| {
-    vec!["lobby-join", "player-join", "lobby-leave"]
-});
+pub static LOBBY_EVENTS: Lazy<Vec<&str>> =
+    Lazy::new(|| vec!["lobby-join", "player-join", "lobby-leave"]);
 
 // This event is constructed and sent to the lobby manager task.
 pub enum LobbyEvent {
     LobbyJoin(EventComponent),
     PlayerJoin(EventComponent),
     LobbyLeave(EventComponent),
+    ChangeTime(
+        DateTime<Utc>,
+        Arc<RwLock<HashMap<String, UnboundedSender<LobbyEvent>>>>,
+    ),
+    LobbyIsDue,
 }
 
 impl LobbyEvent {
@@ -85,7 +95,8 @@ impl LobbyEvent {
     }
 }
 
-// A builder type for LobbyEvent
+/// A builder type for LobbyEvent
+// I know this is unnecessary but I felt like this is cool.
 #[derive(Default)]
 pub struct EventBuilder {
     interaction: Option<MessageComponentInteraction>,
@@ -105,10 +116,10 @@ impl EventBuilder {
 
     fn check_for_event_component(&self, event: &str) -> Result<()> {
         if let None = self.interaction {
-            return Err(anyhow!("Interaction must be set for event {event}"))
+            return Err(anyhow!("Interaction must be set for event {event}"));
         }
         if let None = self.http_client {
-            return Err(anyhow!("Http client must be set for event {event}"))
+            return Err(anyhow!("Http client must be set for event {event}"));
         }
         Ok(())
     }
@@ -136,7 +147,7 @@ impl EventBuilder {
                     http_client: self.http_client.unwrap(),
                 }))
             }
-            _ => Err(anyhow!("Got event: {event}. Which is not tracked"))
+            _ => Err(anyhow!("Got event: {event}. Which is not tracked")),
         }
     }
 }
@@ -380,5 +391,50 @@ pub async fn process_lobby_event(
 
             Ok(())
         }
+        LobbyEvent::ChangeTime(time, active_lobbies) => {
+            {
+                let mut lobby_context = lobby_context_locked.write();
+                lobby_context.lobby_time.0 = Some(time);
+                if let Some(handle) = lobby_context.lobby_time.1.as_ref() {
+                    handle.abort();
+                }
+
+                lobby_context.lobby_time.1 = Some(tokio::spawn({
+                    let lobby_context_locked = lobby_context_locked.clone();
+                    let db = db.clone();
+                    let active_lobbies = active_lobbies.clone();
+                    async move {
+                        let time_left = time - Utc::now();
+                        // We check the time range so unwrapping is okay
+                        let time_left = std::time::Duration::from_millis(
+                            time_left.num_milliseconds().try_into().unwrap(),
+                        );
+
+                        // Message the users when 10 mins left
+                        tokio::time::sleep(time_left - std::time::Duration::from_secs(600)).await;
+
+                        let _ = active_lobbies
+                            .read()
+                            .get(&lobby_context_locked.read().id_as_string)
+                            .unwrap()
+                            .send(LobbyEvent::LobbyIsDue);
+
+                        tokio::time::sleep(std::time::Duration::from_secs(600)).await;
+
+                        // Make lobby inactive
+                        let lobby = get_lobby(lobby_context_locked.read().id, &db).await;
+                        if let Ok(ref lobby) = lobby {
+                            let _ = disable_lobby(lobby, &db).await;
+                        }
+
+                        active_lobbies
+                            .write()
+                            .remove(&lobby_context_locked.read().id_as_string);
+                    }
+                }))
+            }
+            Ok(())
+        }
+        LobbyEvent::LobbyIsDue => todo!("Ping all players"),
     }
 }

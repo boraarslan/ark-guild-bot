@@ -305,7 +305,7 @@ pub async fn insert_lobby(
         lobby_master: Set(lobby_context.lobby_master.to_string()),
         content: Set(Content::from_str(content_name_retained.as_str()).unwrap()),
         created: Set(chrono::Utc::now()),
-        scheduled: Set(lobby_context.lobby_time),
+        scheduled: Set(lobby_context.lobby_time.0),
         active: Set(true),
     };
 

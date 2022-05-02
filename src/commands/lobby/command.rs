@@ -1,4 +1,5 @@
-use crate::{commands::lobby::context::LobbyContext, info::*, check::is_guild_init};
+use crate::{check::is_guild_init, commands::lobby::context::LobbyContext, info::*};
+use chrono::Utc;
 use helper::*;
 use parking_lot::RwLock;
 use poise::{
@@ -143,7 +144,7 @@ pub async fn create_lobby(
         state: State::ContentSelection,
         content: None,
         content_info: None,
-        lobby_time,
+        lobby_time: (lobby_time, None),
         players: vec![],
         active_players: vec![],
         player_list: vec![],
@@ -377,15 +378,47 @@ pub async fn create_lobby(
 
     insert_lobby(&lobby_context_locked.read(), db).await?;
     let (sender, mut reciever) = unbounded_channel::<LobbyEvent>();
-    ctx.data()
-        .active_lobbies
-        .write()
-        .insert(lobby_context_locked.read().id_as_string.clone(), sender);
+    ctx.data().active_lobbies.write().insert(
+        lobby_context_locked.read().id_as_string.clone(),
+        sender.clone(),
+    );
 
     println!(
         "Inserted lobby id: {}",
         lobby_context_locked.read().id_as_string
     );
+
+    // It is the first time creating a timer task so second field is always None
+    if let Some(time) = lobby_context_locked.read().lobby_time.0 {
+        lobby_context_locked.write().lobby_time.1 = Some(tokio::spawn({
+            let channel = sender;
+            let lobby_context_locked = lobby_context_locked.clone();
+            let db = db;
+            let active_lobbies = ctx.data().active_lobbies.clone();
+            async move{
+                let time_left = time - Utc::now();
+                // We check the time range so unwrapping is okay
+                let time_left = std::time::Duration::from_millis(
+                    time_left.num_milliseconds().try_into().unwrap(),
+                );
+
+                // Message the users when 10 mins left
+                tokio::time::sleep(time_left - std::time::Duration::from_secs(600)).await;
+
+                let _ = channel.send(LobbyEvent::LobbyIsDue);
+
+                tokio::time::sleep(std::time::Duration::from_secs(600)).await;
+
+                // Make lobby inactive
+                let lobby = get_lobby(lobby_context_locked.read().id, db).await;
+                if let Ok(ref lobby) = lobby {
+                    let _ = disable_lobby(lobby, db).await;
+                }
+
+                active_lobbies.write().remove(&lobby_context_locked.read().id_as_string);
+            }
+        }))
+    }
 
     // End the command context here and spawn a background task
     tokio::spawn({

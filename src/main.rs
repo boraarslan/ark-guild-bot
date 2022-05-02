@@ -1,7 +1,11 @@
 use ark_guild_bot::{
     commands::{
         characters::*,
-        lobby::{command::*, context::LobbyContext, helper::{process_lobby_event, LobbyEvent}},
+        lobby::{
+            command::*,
+            context::LobbyContext,
+            helper::{process_lobby_event, LobbyEvent},
+        },
         register::*,
         Data,
     },
@@ -22,6 +26,15 @@ use tokio::sync::mpsc::{unbounded_channel, UnboundedSender};
 
 pub static DB: OnceCell<DatabaseConnection> = OnceCell::new();
 
+/// At this point, whole code became a mess. It is very hard to understand
+/// the monstrosities that lie behind the unexplainably long functions.
+/// But since it works and this project only has a "limited" scope, 
+/// I don't want to rewrite the whole thing. Instead, I embraced the demonic
+/// design. It is now my perfect training ground where I get to suffer every time
+/// I sit behind my keyboard and figure out the compiler errors that I explore for
+/// the first time. This code is filled with "100 design decisions you should not make".
+/// 
+/// I am not proud of this.
 #[tokio::main]
 async fn main() -> Result<(), Error> {
     dotenv().ok();
@@ -35,7 +48,6 @@ async fn main() -> Result<(), Error> {
             Box::pin(async move {
                 Ok(Data {
                     db: DB.get().unwrap(),
-                    // active_lobbies: todo!("Init this with database query"),
                     active_lobbies: init_active_lobbies(DB.get().unwrap()).await?,
                 })
             })
@@ -71,7 +83,7 @@ async fn main() -> Result<(), Error> {
 
 async fn init_active_lobbies(
     db: &'static DatabaseConnection,
-) -> Result<RwLock<HashMap<String, UnboundedSender<LobbyEvent>>>, DbErr> {
+) -> Result<Arc<RwLock<HashMap<String, UnboundedSender<LobbyEvent>>>>, DbErr> {
     let mut lobby_map = HashMap::new();
     let active_lobbies = get_active_lobbies(db).await?;
     for lobby in active_lobbies {
@@ -100,7 +112,7 @@ async fn init_active_lobbies(
                 state: State::Generated,
                 content: Some(content_info.content_type.as_str().into()),
                 content_info: Some(content_info),
-                lobby_time: lobby.scheduled,
+                lobby_time: (lobby.scheduled, None),
                 players: vec![],
                 active_players: vec![],
                 player_list: vec![],
@@ -132,5 +144,5 @@ async fn init_active_lobbies(
         });
     }
 
-    Ok(RwLock::from(lobby_map))
+    Ok(Arc::new(RwLock::from(lobby_map)))
 }
