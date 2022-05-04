@@ -9,7 +9,7 @@ use crate::{
 };
 
 #[poise::command(slash_command, guild_only, check = "is_guild_init")]
-async fn change_lobby_time(
+pub async fn change_lobby_time(
     ctx: Context<'_>,
     #[description = "ID of the lobby"] lobby_id: String,
     #[description = "Time you want to set for the lobby."] time: String,
@@ -35,7 +35,7 @@ async fn change_lobby_time(
                     .description("Couldn't set lobby time. Either you did not specify a lobby time or the time format is false")
                     .field("Example usage", "`/create_lobby <lobby time>`\n`/create_lobby 6:00pm`\n`/create_lobby May 02, 2021 15:51 UTC+2`", false)
                     .field("\0", "If no time zone is specified the guild time zone is used.", false)
-                    .field("\0", format!("Your guild time zone is UTC{offset}"), false)
+                    .field("\0", format!("Your guild time zone is UTC {offset}"), false)
                 })
             }).await?;
             return Ok(());
@@ -107,6 +107,8 @@ async fn change_lobby_time(
         ctx.say("An error occured while setting the time.").await?;
         return Ok(());
     }
+
+    ctx.say(format!("Changed the lobby time to: (<t:{0}:F>)", time.timestamp())).await?;
 
     Ok(())
 }

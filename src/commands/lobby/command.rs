@@ -148,6 +148,7 @@ pub async fn create_lobby(
         players: vec![],
         active_players: vec![],
         player_list: vec![],
+        http_client: ctx.discord().http.clone(),
     }));
 
     while let Some(mci) = CollectComponentInteraction::new(ctx.discord())

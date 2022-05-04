@@ -433,6 +433,27 @@ pub async fn process_lobby_event(
                     }
                 }))
             }
+
+            let http_client = lobby_context_locked.read().http_client.clone();
+            let (channel, message_id, lobby_embed, lobby_buttons) = {
+                let lobby_context = lobby_context_locked.read();
+                (
+                    serenity::ChannelId(lobby_context.channel_id),
+                    lobby_context.message_id,
+                    lobby_context.create_embed(),
+                    lobby_context.create_user_buttons()
+                )
+            };
+            channel
+                .edit_message(&http_client, message_id, |m| {
+                    m.embed(|e| {
+                        *e = lobby_embed;
+                        e
+                    })
+                    .components(|c| c.set_action_row(lobby_buttons))
+                })
+                .await
+                .expect("Couldn't edit the message");
             Ok(())
         }
         LobbyEvent::LobbyIsDue => todo!("Ping all players"),

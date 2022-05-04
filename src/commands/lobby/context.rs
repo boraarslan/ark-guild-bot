@@ -1,5 +1,7 @@
+use std::sync::Arc;
+
 use chrono::{DateTime, Utc};
-use poise::serenity_prelude::{self as serenity, CreateSelectMenu};
+use poise::serenity_prelude::{self as serenity, CreateSelectMenu, Http};
 use poise::serenity_prelude::{CreateActionRow, CreateEmbed};
 use sea_orm::DatabaseConnection;
 use tokio::task::JoinHandle;
@@ -31,6 +33,12 @@ pub struct LobbyContext {
     pub players: Vec<entity::characters::Model>,
     pub active_players: Vec<entity::characters::Model>,
     pub player_list: Vec<String>,
+    // This field is added when I was writing lobby time change command.
+    // I don't know why I did not thought about doing this earlier 
+    // (probably because I thought it was not necessary)
+    // but since this is added there is no need to send http client through channels
+    // and such. I will fix those things later.
+    pub http_client: Arc<Http>,
 }
 
 impl LobbyContext {

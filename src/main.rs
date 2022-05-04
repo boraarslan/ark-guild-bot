@@ -5,6 +5,7 @@ use ark_guild_bot::{
             command::*,
             context::LobbyContext,
             helper::{process_lobby_event, LobbyEvent},
+            time::change_lobby_time,
         },
         register::*,
         Data,
@@ -19,7 +20,7 @@ use dotenv::dotenv;
 use hashbrown::HashMap;
 use once_cell::sync::OnceCell;
 use parking_lot::RwLock;
-use poise::serenity_prelude::{self as serenity, GatewayIntents};
+use poise::serenity_prelude::{self as serenity, GatewayIntents, Http};
 use sea_orm::{Database, DatabaseConnection, DbErr};
 use std::sync::Arc;
 use tokio::sync::mpsc::{unbounded_channel, UnboundedSender};
@@ -28,12 +29,12 @@ pub static DB: OnceCell<DatabaseConnection> = OnceCell::new();
 
 /// At this point, whole code became a mess. It is very hard to understand
 /// the monstrosities that lie behind the unexplainably long functions.
-/// But since it works and this project only has a "limited" scope, 
+/// But since it works and this project only has a "limited" scope,
 /// I don't want to rewrite the whole thing. Instead, I embraced the demonic
 /// design. It is now my perfect training ground where I get to suffer every time
 /// I sit behind my keyboard and figure out the compiler errors that I explore for
 /// the first time. This code is filled with "100 design decisions you should not make".
-/// 
+///
 /// I am not proud of this.
 #[tokio::main]
 async fn main() -> Result<(), Error> {
@@ -44,11 +45,12 @@ async fn main() -> Result<(), Error> {
     .unwrap();
     poise::Framework::build()
         .token(std::env::var("DISCORD_TOKEN").expect("DISCORD_TOKEN must be set"))
-        .user_data_setup(move |_ctx, _ready, _framework| {
+        .user_data_setup(move |ctx, _ready, _framework| {
             Box::pin(async move {
                 Ok(Data {
                     db: DB.get().unwrap(),
-                    active_lobbies: init_active_lobbies(DB.get().unwrap()).await?,
+                    active_lobbies: init_active_lobbies(DB.get().unwrap(), ctx.http.clone())
+                        .await?,
                 })
             })
         })
@@ -61,6 +63,7 @@ async fn main() -> Result<(), Error> {
                 delete_character(),
                 edit_character_ilvl(),
                 create_lobby(),
+                change_lobby_time(),
             ],
             listener: |ctx, event, framework, user_data| {
                 Box::pin(listener(ctx, event, framework, user_data))
@@ -83,6 +86,7 @@ async fn main() -> Result<(), Error> {
 
 async fn init_active_lobbies(
     db: &'static DatabaseConnection,
+    http_client: Arc<Http>,
 ) -> Result<Arc<RwLock<HashMap<String, UnboundedSender<LobbyEvent>>>>, DbErr> {
     let mut lobby_map = HashMap::new();
     let active_lobbies = get_active_lobbies(db).await?;
@@ -116,6 +120,7 @@ async fn init_active_lobbies(
                 players: vec![],
                 active_players: vec![],
                 player_list: vec![],
+                http_client: http_client.clone(),
             }));
 
             {
