@@ -8,6 +8,9 @@ use once_cell::sync::Lazy;
 use parking_lot::RwLock;
 use parse_display::Display;
 use poise::serenity_prelude::CreateSelectMenuOption;
+use poise::serenity_prelude::GuildId;
+use poise::serenity_prelude::User;
+use poise::serenity_prelude::UserId;
 use poise::serenity_prelude::{self as serenity, MessageComponentInteraction};
 use sea_orm::{DatabaseConnection, DbErr};
 use std::sync::Arc;
@@ -441,9 +444,10 @@ pub async fn process_lobby_event(
                     serenity::ChannelId(lobby_context.channel_id),
                     lobby_context.message_id,
                     lobby_context.create_embed(),
-                    lobby_context.create_user_buttons()
+                    lobby_context.create_user_buttons(),
                 )
             };
+
             channel
                 .edit_message(&http_client, message_id, |m| {
                     m.embed(|e| {
@@ -454,8 +458,39 @@ pub async fn process_lobby_event(
                 })
                 .await
                 .expect("Couldn't edit the message");
+
             Ok(())
         }
-        LobbyEvent::LobbyIsDue => todo!("Ping all players"),
+        LobbyEvent::LobbyIsDue => {
+            let lobby_context = lobby_context_locked.read();
+            let mut users = vec![];
+            let guild = GuildId(lobby_context.guild_id)
+                .to_partial_guild(lobby_context.http_client.clone())
+                .await?;
+
+            // Build users from active player ids
+            for model in &lobby_context.active_players {
+                let user = UserId(model.id.parse::<u64>().unwrap())
+                    .to_user(lobby_context.http_client.clone())
+                    .await;
+                users.push(user);
+            }
+            let users: Vec<User> = users.into_iter().flatten().collect();
+
+            for user in users {
+                user.dm(lobby_context.http_client.clone(), |message| {
+                    message.embed(|e| {
+                        e.title("Your lobby starts in 10 minutes.")
+                            .description(format!(
+                                "Your {} lobby in server {} starts soon. Have fun!",
+                                lobby_context.content_info().name,
+                                guild.name
+                            ))
+                    })
+                })
+                .await?;
+            }
+            Ok(())
+        }
     }
 }
