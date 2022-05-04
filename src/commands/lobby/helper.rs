@@ -448,6 +448,7 @@ pub async fn process_lobby_event(
                 )
             };
 
+            // Edit the original message
             channel
                 .edit_message(&http_client, message_id, |m| {
                     m.embed(|e| {
@@ -459,23 +460,37 @@ pub async fn process_lobby_event(
                 .await
                 .expect("Couldn't edit the message");
 
+            let users = get_users_from_ids(&lobby_context_locked.read()).await;
+
+            let lobby_context = lobby_context_locked.read();
+            let guild = GuildId(lobby_context.guild_id)
+                .to_partial_guild(lobby_context.http_client.clone())
+                .await?;
+
+            for user in users {
+                user.dm(lobby_context.http_client.clone(), |message| {
+                    message.embed(|e| {
+                        e.title("Your lobby is rescheduled.")
+                            .description(format!(
+                                "Your {} lobby in server {} has been rescheduled to (<t:{}:F>). Don't forget about it!",
+                                lobby_context.content_info().name,
+                                guild.name,
+                                time.timestamp()
+                            ))
+                    })
+                })
+                .await?;
+            }
             Ok(())
         }
         LobbyEvent::LobbyIsDue => {
             let lobby_context = lobby_context_locked.read();
-            let mut users = vec![];
             let guild = GuildId(lobby_context.guild_id)
                 .to_partial_guild(lobby_context.http_client.clone())
                 .await?;
 
             // Build users from active player ids
-            for model in &lobby_context.active_players {
-                let user = UserId(model.id.parse::<u64>().unwrap())
-                    .to_user(lobby_context.http_client.clone())
-                    .await;
-                users.push(user);
-            }
-            let users: Vec<User> = users.into_iter().flatten().collect();
+            let users: Vec<User> = get_users_from_ids(&lobby_context).await;
 
             for user in users {
                 user.dm(lobby_context.http_client.clone(), |message| {
@@ -493,4 +508,15 @@ pub async fn process_lobby_event(
             Ok(())
         }
     }
+}
+
+async fn get_users_from_ids(lobby_context: &LobbyContext) -> Vec<User> {
+    let mut users = vec![];
+    for model in &lobby_context.active_players {
+        let user = UserId(model.id.parse::<u64>().unwrap())
+            .to_user(lobby_context.http_client.clone())
+            .await;
+        users.push(user);
+    }
+    users.into_iter().flatten().collect()
 }
