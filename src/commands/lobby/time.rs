@@ -108,7 +108,7 @@ pub async fn change_lobby_time(
         return Ok(());
     }
 
-    ctx.say(format!("Changed the lobby time to: (<t:{0}:F>)", time.timestamp())).await?;
+    ctx.say(format!("Changed the lobby time to: (<t:{}:F>)", time.timestamp())).await?;
 
     Ok(())
 }
