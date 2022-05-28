@@ -16,8 +16,9 @@ use tokio::sync::mpsc::UnboundedSender;
 pub struct Data {
     pub db: &'static DatabaseConnection,
     // Hashmap to store lobby ids with their task's channel handle
-    pub active_lobbies: Arc<RwLock<HashMap<String, UnboundedSender<LobbyEvent>>>>,
+    pub active_lobbies: LobbyMap,
 }
+pub type LobbyMap = Arc<RwLock<HashMap<String, UnboundedSender<LobbyEvent>>>>;
 pub type Error = Box<dyn std::error::Error + Send + Sync>;
 pub type Context<'a> = poise::Context<'a, Data, Error>;
 

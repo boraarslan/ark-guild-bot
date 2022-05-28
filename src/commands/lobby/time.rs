@@ -98,7 +98,7 @@ pub async fn change_lobby_time(
         Some(channel) => channel,
         None => {
             drop(active_lobbies);
-            ctx.say("Channel is not tracked.").await?;
+            ctx.say("Lobby is not tracked.").await?;
             return Ok(());
         }
     };

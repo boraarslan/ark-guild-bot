@@ -3,7 +3,6 @@ use anyhow::Result;
 use chrono::DateTime;
 use chrono::Utc;
 use entity::sea_orm_active_enums::Content;
-use hashbrown::HashMap;
 use once_cell::sync::Lazy;
 use parking_lot::RwLock;
 use parse_display::Display;
@@ -14,8 +13,8 @@ use poise::serenity_prelude::UserId;
 use poise::serenity_prelude::{self as serenity, MessageComponentInteraction};
 use sea_orm::{DatabaseConnection, DbErr};
 use std::sync::Arc;
-use tokio::sync::mpsc::UnboundedSender;
 
+use crate::LobbyMap;
 use crate::database::disable_lobby;
 use crate::database::get_lobby;
 use crate::{
@@ -80,6 +79,7 @@ impl LobbyContent {
 pub static LOBBY_EVENTS: Lazy<Vec<&str>> =
     Lazy::new(|| vec!["lobby-join", "player-join", "lobby-leave"]);
 
+
 // This event is constructed and sent to the lobby manager task.
 pub enum LobbyEvent {
     LobbyJoin(EventComponent),
@@ -87,9 +87,10 @@ pub enum LobbyEvent {
     LobbyLeave(EventComponent),
     ChangeTime(
         DateTime<Utc>,
-        Arc<RwLock<HashMap<String, UnboundedSender<LobbyEvent>>>>,
+        LobbyMap,
     ),
     LobbyIsDue,
+    CloseLobby(LobbyMap),
 }
 
 impl LobbyEvent {
@@ -507,6 +508,12 @@ pub async fn process_lobby_event(
             }
             Ok(())
         }
+        LobbyEvent::CloseLobby(active_lobbies) => {
+            let mut lobby_context = lobby_context_locked.write();
+            lobby_context.drop_timebomb();
+            active_lobbies.write().remove(&lobby_context.id_as_string);
+            Ok(())
+        },
     }
 }
 

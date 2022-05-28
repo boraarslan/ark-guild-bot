@@ -243,4 +243,10 @@ impl LobbyContext {
         }
         false
     }
+
+    pub fn drop_timebomb(&mut self) {
+        if let Some(task) = &self.lobby_time.1 {
+            task.abort()
+        }
+    }
 }
