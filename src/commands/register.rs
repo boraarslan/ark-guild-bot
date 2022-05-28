@@ -5,7 +5,6 @@ use super::*;
 #[poise::command(
     prefix_command,
     slash_command,
-    hide_in_help,
     required_permissions = "ADMINISTRATOR"
 )]
 pub async fn register_guild(

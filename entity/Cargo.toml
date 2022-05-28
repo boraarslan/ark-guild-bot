@@ -10,7 +10,7 @@ path = "src/lib.rs"
 
 [dependencies]
 sea-orm = {version = "0.7.1", features = ["sqlx-postgres", "runtime-tokio-rustls", "macros"], default-features = false}
-poise = {git = "https://github.com/kangalioo/poise"} # For slash command choice parameter derive macro
+poise = "0.1.0" # For slash command choice parameter derive macro
 parse-display = "0.5.5"
 enum-iterator = "0.7.0"
 strum = {version = "0.24.0", features = ["derive"]}

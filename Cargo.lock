@@ -51,14 +51,15 @@ dependencies = [
 
 [[package]]
 name = "anyhow"
-version = "1.0.56"
+version = "1.0.57"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4361135be9122e0870de935d7c439aef945b9f9ddd4199a553b5270b49c82a27"
+checksum = "08f9b8508dccb7687a1d6c4ce66b2b0ecef467c94667de27d8d7fe1f8d2a9cdc"
 
 [[package]]
 name = "ark-guild-bot"
 version = "0.1.0"
 dependencies = [
+ "anyhow",
  "chrono",
  "dateparser",
  "dotenv",
@@ -69,7 +70,7 @@ dependencies = [
  "once_cell",
  "parking_lot 0.12.0",
  "parse-display",
- "poise 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "poise",
  "sea-orm",
  "serde",
  "tokio",
@@ -627,7 +628,7 @@ version = "0.1.0"
 dependencies = [
  "enum-iterator",
  "parse-display",
- "poise 0.1.0 (git+https://github.com/kangalioo/poise)",
+ "poise",
  "sea-orm",
  "strum",
 ]
@@ -1433,24 +1434,7 @@ dependencies = [
  "futures-util",
  "log",
  "once_cell",
- "poise_macros 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "regex",
- "serenity",
- "tokio",
-]
-
-[[package]]
-name = "poise"
-version = "0.1.0"
-source = "git+https://github.com/kangalioo/poise#34d5863d292bb220d0b24fdd5a12eb79081c268a"
-dependencies = [
- "async-trait",
- "derivative",
- "futures-core",
- "futures-util",
- "log",
- "once_cell",
- "poise_macros 0.1.0 (git+https://github.com/kangalioo/poise)",
+ "poise_macros",
  "regex",
  "serenity",
  "tokio",
@@ -1461,17 +1445,6 @@ name = "poise_macros"
 version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "da5d16486f03d740d408deed8b79d6048458f052777158ae6f55a7739d54fa86"
-dependencies = [
- "darling",
- "proc-macro2",
- "quote",
- "syn",
-]
-
-[[package]]
-name = "poise_macros"
-version = "0.1.0"
-source = "git+https://github.com/kangalioo/poise#34d5863d292bb220d0b24fdd5a12eb79081c268a"
 dependencies = [
  "darling",
  "proc-macro2",
@@ -2451,9 +2424,9 @@ checksum = "cda74da7e1a664f795bb1f8a87ec406fb89a02522cf6e50620d016add6dbbf5c"
 
 [[package]]
 name = "tokio"
-version = "1.17.0"
+version = "1.18.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2af73ac49756f3f7c01172e34a23e5d0216f6c32333757c2c61feb2bbff5a5ee"
+checksum = "0f48b6d60512a392e34dbf7fd456249fd2de3c83669ab642e021903f4015185b"
 dependencies = [
  "bytes",
  "libc",

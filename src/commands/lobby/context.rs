@@ -1,7 +1,10 @@
+use std::sync::Arc;
+
 use chrono::{DateTime, Utc};
-use poise::serenity_prelude::{self as serenity, CreateSelectMenu};
+use poise::serenity_prelude::{self as serenity, CreateSelectMenu, Http};
 use poise::serenity_prelude::{CreateActionRow, CreateEmbed};
 use sea_orm::DatabaseConnection;
+use tokio::task::JoinHandle;
 
 use super::command::State;
 use super::helper::*;
@@ -26,10 +29,16 @@ pub struct LobbyContext {
     pub state: State,
     pub content: Option<LobbyContent>,
     pub content_info: Option<&'static ContentInfo>,
-    pub lobby_time: Option<DateTime<Utc>>,
+    pub lobby_time: ( Option<DateTime<Utc>> , Option<JoinHandle<()>>),
     pub players: Vec<entity::characters::Model>,
     pub active_players: Vec<entity::characters::Model>,
     pub player_list: Vec<String>,
+    // This field is added when I was writing lobby time change command.
+    // I don't know why I did not thought about doing this earlier 
+    // (probably because I thought it was not necessary)
+    // but since this is added there is no need to send http client through channels
+    // and such. I will fix those things later.
+    pub http_client: Arc<Http>,
 }
 
 impl LobbyContext {
@@ -74,7 +83,7 @@ impl LobbyContext {
                     self.content_info().ilvl_req
                 ),
                 format!("Scheduled time: {}", {
-                    match self.lobby_time {
+                    match self.lobby_time.0 {
                         Some(time) => format!("<t:{0}:R>  (<t:{0}:F>)", time.timestamp()),
                         None => "Not Set".to_owned() + "",
                     }
@@ -233,5 +242,11 @@ impl LobbyContext {
             }
         }
         false
+    }
+
+    pub fn drop_timebomb(&mut self) {
+        if let Some(task) = &self.lobby_time.1 {
+            task.abort()
+        }
     }
 }
